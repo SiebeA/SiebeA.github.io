@@ -41,30 +41,55 @@ const greekLetters = [
 const letterContainer = document.getElementById('letter-container');
 const answerInput = document.getElementById('answer-input');
 const submitButton = document.getElementById('submit-button');
+const nextButton = document.getElementById('next-button');
 const feedback = document.getElementById('feedback');
 
-// Randomly select a letter from the array and display it on the page
-const randomIndex = Math.floor(Math.random() * greekLetters.length);
-const randomLetter = greekLetters[randomIndex];
-letterContainer.innerHTML = randomLetter.letter;
+let randomIndex = Math.floor(Math.random() * greekLetters.length);
+let randomLetter = greekLetters[randomIndex];
+
+// Function to display a new random Greek letter
+function displayNewLetter() {
+  randomIndex = Math.floor(Math.random() * greekLetters.length);
+  randomLetter = greekLetters[randomIndex];
+  letterContainer.innerHTML = randomLetter.letter;
+  answerInput.value = '';
+  feedback.innerHTML = '';
+}
+
+// Display the first random Greek letter
+displayNewLetter();
 
 // Compare the user's input to the correct name of the letter and provide feedback to the user
 submitButton.addEventListener('click', function() {
-  const userInput = answerInput.value.trim();
-  const correctAnswer = randomLetter.name;
+  const userInput = answerInput.value.trim().toLowerCase();
+  const correctAnswer = randomLetter.name.toLowerCase();
 
-  if (userInput.toLowerCase() === correctAnswer.toLowerCase()) {
+  if (userInput === correctAnswer) {
     feedback.innerHTML = 'Correct!';
-  } else if (removeAccents(userInput.toLowerCase()) === removeAccents(correctAnswer.toLowerCase())) {
-    feedback.innerHTML = 'Close. You made an accent mistake.';
-  } else if (userInput.toLowerCase() === correctAnswer.toLowerCase().replace(/ά/g, 'α').replace(/έ/g, 'ε').replace(/ή/g, 'η').replace(/ί/g, 'ι').replace(/ό/g, 'ο').replace(/ύ/g, 'υ').replace(/ώ/g, 'ω')) {
-    feedback.innerHTML = 'Close. You made a capitalization mistake.';
+  } else if (userInput === '') {
+    feedback.innerHTML = 'Please enter an answer.';
+  } else if (removeAccents(userInput) === removeAccents(correctAnswer)) {
+    feedback.innerHTML = 'Close! You had a small typo.';
   } else {
-    feedback.innerHTML = 'Incorrect. The correct answer is ' + correctAnswer + '.';
+    feedback.innerHTML = 'Incorrect. The correct answer is ' + randomLetter.name + '.';
   }
+});
+
+// Display a new random Greek letter when the "Next" button is clicked
+nextButton.addEventListener('click', function() {
+  displayNewLetter();
 });
 
 // Function to remove accents from Greek letters
 function removeAccents(str) {
-  return str.normalize('NFD').replace(/[\u0300-\u036f]/g, "");
+  const accents = [
+    ['Ά', 'Α'], ['Έ', 'Ε'], ['Ή', 'Η'], ['Ί', 'Ι'], ['Ό', 'Ο'], ['Ύ', 'Υ'], ['Ώ', 'Ω'],
+    ['ά', 'α'], ['έ', 'ε'], ['ή', 'η'], ['ί', 'ι'], ['ό', 'ο'], ['ύ', 'υ'], ['ώ', 'ω']
+  ];
+
+  for (let i = 0; i < accents.length; i++) {
+    str = str.replace(accents[i][0], accents[i][1]);
+  }
+
+  return str;
 }
