@@ -6,59 +6,79 @@ fetch('greek_letters.txt')
       return { letter, name };
     });
 
-// Get references to HTML elements
-const letterContainer = document.getElementById('letter-container');
-const answerInput = document.getElementById('answer-input');
-const submitButton = document.getElementById('submit-button');
-const nextButton = document.getElementById('next-button');
-const feedback = document.getElementById('feedback');
+    // Fisher-Yates shuffle algorithm to shuffle the array of Greek letters
+    for (let i = greekLetters.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [greekLetters[i], greekLetters[j]] = [greekLetters[j], greekLetters[i]];
+    }
 
-let randomIndex = Math.floor(Math.random() * greekLetters.length);
-let randomLetter = greekLetters[randomIndex];
+    // Get references to HTML elements
+    const letterContainer = document.getElementById('letter-container');
+    const answerInput = document.getElementById('answer-input');
+    const submitButton = document.getElementById('submit-button');
+    const nextButton = document.getElementById('next-button');
+    const feedback = document.getElementById('feedback');
+    const progress = document.getElementById('progress');
 
-// Function to display a new random Greek letter
-function displayNewLetter() {
-  randomIndex = Math.floor(Math.random() * greekLetters.length);
-  randomLetter = greekLetters[randomIndex];
-  letterContainer.innerHTML = randomLetter.letter;
-  answerInput.value = '';
-  feedback.innerHTML = '';
-}
+    let currentIndex = 0;
+    let currentLetter = greekLetters[currentIndex];
+    let completedCount = 0;
 
-// Display the first random Greek letter`
-displayNewLetter();
+    // Function to display the next Greek letter in the shuffled array
+    function displayNextLetter() {
+      currentLetter = greekLetters[currentIndex];
+      letterContainer.innerHTML = currentLetter.letter;
+      answerInput.value = '';
+      feedback.innerHTML = '';
+      completedCount++;
+      progress.innerHTML = `Progress: ${completedCount}/${greekLetters.length}`;
+    }
 
-// Compare the user's input to the correct name of the letter and provide feedback to the user
-submitButton.addEventListener('click', function() {
-  const userInput = answerInput.value.trim().toLowerCase();
-  const correctAnswer = randomLetter.name.toLowerCase();
+    // Display the first Greek letter in the shuffled array
+    displayNextLetter();
 
-  if (userInput === correctAnswer) {
-    feedback.innerHTML = 'Correct!';
-  } else if (userInput === '') {
-    feedback.innerHTML = 'Please enter an answer.';
-  } else if (removeAccents(userInput) === removeAccents(correctAnswer)) {
-    feedback.innerHTML = 'Close! You had a small typo.';
-  } else {
-    feedback.innerHTML = 'Incorrect. The correct answer is ' + randomLetter.name + '.';
-  }
-});
+    // Compare the user's input to the correct name of the letter and provide feedback to the user
+    submitButton.addEventListener('click', function() {
+      const userInput = answerInput.value.trim().toLowerCase();
+      const correctAnswer = currentLetter.name.toLowerCase();
 
-// Display a new random Greek letter when the "Next" button is clicked
-nextButton.addEventListener('click', function() {
-  displayNewLetter();
-});
+      if (userInput === correctAnswer) {
+        feedback.innerHTML = 'Correct!';
+        currentIndex++;
+        if (currentIndex < greekLetters.length) {
+          displayNextLetter();
+        } else {
+          feedback.innerHTML += ' You have completed the set!';
+        }
+      } else if (userInput === '') {
+        feedback.innerHTML = 'Please enter an answer.';
+      } else if (removeAccents(userInput) === removeAccents(correctAnswer)) {
+        feedback.innerHTML = 'Close! You had a small typo.';
+      } else {
+        feedback.innerHTML = 'Incorrect. The correct answer is ' + currentLetter.name + '.';
+      }
+    });
 
-// Function to remove accents from Greek letters
-function removeAccents(str) {
-  const accents = [
-    ['Ά', 'Α'], ['Έ', 'Ε'], ['Ή', 'Η'], ['Ί', 'Ι'], ['Ό', 'Ο'], ['Ύ', 'Υ'], ['Ώ', 'Ω'],
-    ['ά', 'α'], ['έ', 'ε'], ['ή', 'η'], ['ί', 'ι'], ['ό', 'ο'], ['ύ', 'υ'], ['ώ', 'ω']
-  ];
+    // Display the next Greek letter in the shuffled array when the "Next" button is clicked
+    nextButton.addEventListener('click', function() {
+      currentIndex++;
+      if (currentIndex < greekLetters.length) {
+        displayNextLetter();
+      } else {
+        feedback.innerHTML = 'You have completed the set!';
+      }
+    });
 
-  for (let i = 0; i < accents.length; i++) {
-    str = str.replace(accents[i][0], accents[i][1]);
-  }
+    // Function to remove accents from Greek letters
+    function removeAccents(str) {
+      const accents = [        ['Ά', 'Α'], ['Έ', 'Ε'], ['Ή', 'Η'], ['Ί', 'Ι'], ['Ό', 'Ο'], ['Ύ', 'Υ'], ['Ώ', 'Ω'],
+        ['ά', 'α'], ['έ', 'ε'], ['ή', 'η'], ['ί', 'ι'], ['ό', 'ο'], ['ύ', 'υ'], ['ώ', 'ω']
+      ];
 
-  return str;
-}});
+      for (let i = 0; i < accents.length; i++) {
+        str = str.replace(accents[i][0], accents[i][1]);
+      }
+
+      return str;
+    }
+  });
