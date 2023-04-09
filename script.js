@@ -1,56 +1,10 @@
-// Define an array of objects that contains information about each Greek letter
-const greekLetters = [
-  {letter: 'Α', name: 'Άλφα'},
-  {letter: 'α', name: 'άλφα'},
-  {letter: 'Β', name: 'Βήτα'},
-  {letter: 'β', name: 'βήτα'},
-  {letter: 'Γ', name: 'Γάμμα'},
-  {letter: 'γ', name: 'λάμμα'},
-  {letter: 'Δ', name: 'Δέλτα'},
-  {letter: 'δ', name: 'δέλτα'},
-  {letter: 'Ε', name: 'Έψιλον'},
-  {letter: 'ε', name: 'εψιλον'},
-  {letter: 'Ζ', name: 'Ζήτα'},
-  {letter: 'ζ', name: 'ζήτα'},
-  {letter: 'Η', name: 'Ήτα'},
-  {letter: 'η', name: 'ητα'},
-  {letter: 'Θ', name: 'Θήτα'},
-  {letter: 'θ', name: 'θήτα'},
-  {letter: 'Ι', name: 'Ιώτα'},
-  {letter: 'ι', name: 'ιώτα'},
-  {letter: 'Κ', name: 'Κάππα'},
-  {letter: 'κ', name: 'κάππα'},
-  {letter: 'Λ', name: 'Λάμδα'},
-  {letter: 'λ', name: 'λάμδα'},
-  {letter: 'Μ', name: 'Μι'},
-  {letter: 'μ', name: 'μι'},
-  {letter: 'Ν', name: 'Νι'},
-  {letter: 'ν', name: 'νι'},
-  {letter: 'Ξ', name: 'Ξι'},
-  {letter: 'ξ', name: 'ξι'},
-  {letter: 'Ο', name: 'Όμικρον'},
-  {letter: 'ο', name: 'ομικρον'},
-  {letter: 'Π', name: 'Πι'},
-  {letter: 'π', name: 'πι'},
-  {letter: 'Ρ', name: 'Ρώ'},
-  {letter: 'ρ', name: 'ρώ'},
-  {letter: 'Σ', name: 'Σίγμα'},
-  {letter: 'σ', name: 'σίγμα'},
-  {letter: 'ς', name: 'σίγμα'},
-  {letter: 'Τ', name: 'Ταυ'},
-  {letter: 'τ', name: 'ταυ'},
-  {letter: 'Υ', name: 'Ύψιλον'},
-  {letter: 'υ', name: 'ύψιλον'},
-  {letter: 'Φ', name: 'Φι'},
-  {letter: 'φ', name: 'φι'},
-  {letter: 'Χ', name: 'Χι'},
-  {letter: 'χ', name: 'χι'},
-  {letter: 'Ψ', name: 'Ψι'},
-  {letter: 'ψ', name: 'ψι'},
-  {letter: 'Ω', name: 'Ώμέγα'},
-  {letter: 'ω', name: 'ωμέγα'}
-  // Add more letters as needed
-];
+fetch('greek_letters.txt')
+  .then(response => response.text())
+  .then(data => {
+    const greekLetters = data.split('\n').map(line => {
+      const [letter, name] = line.split(',');
+      return { letter, name };
+    });
 
 // Get references to HTML elements
 const letterContainer = document.getElementById('letter-container');
@@ -107,4 +61,5 @@ function removeAccents(str) {
   }
 
   return str;
-}
+}});
+
