@@ -62,4 +62,3 @@ function removeAccents(str) {
 
   return str;
 }});
-
