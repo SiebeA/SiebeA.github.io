@@ -38,36 +38,49 @@ fetch('greek_letters.txt')
     displayNextLetter();
 
     // Compare the user's input to the correct name of the letter and provide feedback to the user
+    feedback.style.fontSize = "30px";
+
     submitButton.addEventListener('click', function() {
       const userInput = answerInput.value.trim().toLowerCase();
-      const correctAnswer = currentLetter.name.toLowerCase();
-
-      if (userInput === correctAnswer) {
+      const correctAnswer = currentLetter.name.trim().toLowerCase();
+      console.log(userInput, correctAnswer);
+      if (userInput === '') {  // If the user does not enter an answer, display a message
+        feedback.innerHTML = 'Please enter an answer.';
+      }
+      else if (userInput === correctAnswer) {
+        console.log('correct'); 
         feedback.innerHTML = 'Correct!';
+        feedback.style.color = "green";
         currentIndex++;
         if (currentIndex < greekLetters.length) {
-          displayNextLetter();
+          // displayNextLetter(); // this caused the next letter to display before the feedback was displayed THEREFORE THE USER DID NOT SEE THE 'CORRECT' FEEDBACK
         } else {
           feedback.innerHTML += ' You have completed the set!';
         }
-      } else if (userInput === '') {
-        feedback.innerHTML = 'Please enter an answer.';
-      } else if (removeAccents(userInput) === removeAccents(correctAnswer)) {
-        feedback.innerHTML = 'Close! You had a small typo.';
+      }      
+      else if (removeAccents(userInput) === removeAccents(correctAnswer)) {
+        feedback.style.color = "orange";
+        feedback.innerHTML = 'Close, small typo, answer is:' + currentLetter.name;
+        console.log('close');
       } else {
-        feedback.innerHTML = 'Incorrect. The correct answer is ' + currentLetter.name + '.';
+        feedback.style.color = "red";
+        feedback.innerHTML = 'Incorrect. The correct answer is \n' + currentLetter.name + '.';
       }
     });
+    
 
     // Display the next Greek letter in the shuffled array when the "Next" button is clicked
     nextButton.addEventListener('click', function() {
       currentIndex++;
+      // log the current index
+      console.log(currentIndex);
       if (currentIndex < greekLetters.length) {
         displayNextLetter();
       } else {
         feedback.innerHTML = 'You have completed the set!';
       }
     });
+
 
     // Function to remove accents from Greek letters
     function removeAccents(str) {
