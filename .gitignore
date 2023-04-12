@@ -1,2 +1,3 @@
-blog-posts/*
-*.mp3
+*blog-posts/*
+# *.mp3
+.*
