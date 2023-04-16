@@ -2,9 +2,14 @@ fetch('greek_letters.txt')
   .then(response => response.text())
   .then(data => {
     const greekLetters = data.split('\n').map(line => {
-      const [letter, name] = line.split(',');
-      return { letter, name };
+      const [letter, name, example1, example2] = line.split(',');
+      return { letter, name, example1, example2 };
     });
+
+    // print the array of Greek letters
+    // console.log(greekLetters);
+    // print all the letters:
+    // greekLetters.forEach(letter => console.log(letter.letter));
 
     // Fisher-Yates shuffle algorithm to shuffle the array of Greek letters
     for (let i = greekLetters.length - 1; i > 0; i--) {
@@ -36,6 +41,8 @@ fetch('greek_letters.txt')
 
     // Display the first Greek letter in the shuffled array
     displayNextLetter();
+    // log the current answer
+    console.log(currentLetter.name);
 
     // Compare the user's input to the correct name of the letter and provide feedback to the user
     feedback.style.fontSize = "30px";
@@ -48,8 +55,11 @@ fetch('greek_letters.txt')
         feedback.innerHTML = 'Please enter an answer.';
       }
       else if (userInput === correctAnswer) {
-        console.log('correct'); 
-        feedback.innerHTML = 'Correct!';
+        console.log('correct');
+        feedback.innerHTML = 'Correct!  <br /> examples in upper and lower: <br />' + currentLetter.example1 + '<br />' + currentLetter.example2;
+        // NW: I want to display the example words for the letter, but I can't figure out how to do it
+        // feedback.innerHTML = currentLetter.example1 + currentLetter.example2;
+        // feedback.innerHTML = 'Correct!' + example1 + example2;
         feedback.style.color = "green";
         currentIndex++;
         if (currentIndex < greekLetters.length) {
@@ -60,11 +70,11 @@ fetch('greek_letters.txt')
       }      
       else if (removeAccents(userInput) === removeAccents(correctAnswer)) {
         feedback.style.color = "orange";
-        feedback.innerHTML = 'Close, small typo, answer is:' + currentLetter.name;
+        feedback.innerHTML = 'Close, small typo, answer is:' + currentLetter.name + '<br /> examples in upper and lower: <br />' + currentLetter.example1 + '<br />' + currentLetter.example2;
         console.log('close');
       } else {
         feedback.style.color = "red";
-        feedback.innerHTML = 'Incorrect. The correct answer is \n' + currentLetter.name + '.';
+        feedback.innerHTML = 'Incorrect. The correct answer is \n' + currentLetter.name + '<br /> examples in upper and lower: <br />' + currentLetter.example1 + '<br />' + currentLetter.example2;
       }
     });
     
