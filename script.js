@@ -6,11 +6,6 @@ fetch('greek_letters.txt')
       return { letter, name, example1, example2 };
     });
 
-    // print the array of Greek letters
-    // console.log(greekLetters);
-    // print all the letters:
-    // greekLetters.forEach(letter => console.log(letter.letter));
-
     // Fisher-Yates shuffle algorithm to shuffle the array of Greek letters
     for (let i = greekLetters.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
@@ -57,9 +52,6 @@ fetch('greek_letters.txt')
       else if (userInput === correctAnswer) {
         console.log('correct');
         feedback.innerHTML = 'Correct!  <br /> examples in upper and lower: <br />' + currentLetter.example1 + '<br />' + currentLetter.example2;
-        // NW: I want to display the example words for the letter, but I can't figure out how to do it
-        // feedback.innerHTML = currentLetter.example1 + currentLetter.example2;
-        // feedback.innerHTML = 'Correct!' + example1 + example2;
         feedback.style.color = "green";
         currentIndex++;
         if (currentIndex < greekLetters.length) {
