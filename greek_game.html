@@ -7,6 +7,10 @@
     h1 {
       text-align: center;
     }
+    #tips {
+      font-size: 10;
+      text-align: left;
+    }
     #letter-container {
       font-size: 200px;
       text-align: center;
@@ -25,9 +29,11 @@
     }
   </style>
 </head>
+
 <body>
   <h1>Greek Letter Quiz</h1>
-  <p>Enter the name of the Greek letter shown below:</p>
+  <div id="tips"></div>
+  <div id="instruction"></div>
   <div id="letter-container"></div>
   <input type="text" id="answer-input">
   <button id="submit-button">Submit</button>
@@ -36,5 +42,7 @@
   <div id="progress"></div>
 
   <script src="script.js"></script>
+</body>
+
 </body>
 </html>
