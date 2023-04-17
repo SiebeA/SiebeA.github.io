@@ -5,7 +5,6 @@ fetch('greek_letters.txt')
       const [letter, name, example1, example2] = line.split(',');
       return { letter, name, example1, example2 };
     });
-
     // Fisher-Yates shuffle algorithm to shuffle the array of Greek letters
     for (let i = greekLetters.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
@@ -13,6 +12,8 @@ fetch('greek_letters.txt')
     }
 
     // Get references to HTML elements
+    const tipsElement = document.getElementById("tips");
+    const instruction = document.getElementById("instruction");
     const letterContainer = document.getElementById('letter-container');
     const answerInput = document.getElementById('answer-input');
     const submitButton = document.getElementById('submit-button');
@@ -33,6 +34,10 @@ fetch('greek_letters.txt')
       completedCount++;
       progress.innerHTML = `Progress: ${completedCount}/${greekLetters.length}`;
     }
+
+    tipsElement.innerHTML = " Requirement: <br> - The Greek language pack which will allow you to type Greek letters <br><br> Handy tools to use in conjunction with this test:<br> - a desktop translator (QTranslate) with which you can select and pronounce the selected Greek letters with a shortcut key <br> - a on screen keyboard, which shows you where the greek letters are located on the keyboard";
+
+    instruction.innerHTML = "Enter the name of the Greek letter shown below";
 
     // Display the first Greek letter in the shuffled array
     displayNextLetter();

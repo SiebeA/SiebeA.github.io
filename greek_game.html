@@ -15,6 +15,10 @@
       font-size: 200px;
       text-align: center;
     }
+    #instruction {
+      font-size: 10;
+      text-align: left;
+    }
     input {
       font-size: 24px;
       margin-right: 10px;
@@ -25,16 +29,17 @@
       padding: 5px 10px;
     }
     #feedback {
-      margin-top: 50px;
+      margin-top: 5 px;
     }
   </style>
-</head>
 
 <body>
   <h1>Greek Letter Quiz</h1>
   <div id="tips"></div>
-  <div id="instruction"></div>
-  <div id="letter-container"></div>
+  <div id="container">
+    <div id="letter-container"></div>
+    <div id="instruction"></div>
+  </div>
   <input type="text" id="answer-input">
   <button id="submit-button">Submit</button>
   <button id="next-button">Next</button>
@@ -43,6 +48,3 @@
 
   <script src="script.js"></script>
 </body>
-
-</body>
-</html>
