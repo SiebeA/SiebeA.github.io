@@ -5,15 +5,17 @@
   <title>Greek Letter Quiz</title>
   <style>
     h1 {
-      text-align: center;
+      text-align: left;
     }
     #tips {
       font-size: 10;
       text-align: left;
+      padding: 5px 5px 0px 50px;  /*top right bottom left */
     }
     #letter-container {
-      font-size: 200px;
-      text-align: center;
+      font-size: 100px;
+      text-align: left;
+      padding: 1px 5px 1px 5px;
     }
     #instruction {
       font-size: 10;
@@ -26,11 +28,28 @@
     #submit-button,
     #next-button {
       font-size: 24px;
-      padding: 5px 10px;
+      padding: 5px 10px 5px 5px;
     }
     #feedback {
-      margin-top: 5 px;
+      margin-top: 0 px;
     }
+    .label {
+      font-family: Arial, sans-serif;
+      font-size: 20px;
+      font-weight: bold;
+    }
+    .label1 {
+      font-size: 10px;
+    }
+    .example1 {
+      font-family: Times New Roman, serif;
+      font-size: 20px;
+    }
+    .example2 {
+      font-family: Times New Roman, serif;
+      font-size: 20px;
+    }
+
   </style>
 
 <body>
@@ -44,6 +63,7 @@
   <button id="submit-button">Submit</button>
   <button id="next-button">Next</button>
   <p id="feedback"></p>
+  <!-- <p id="example"></p> -->
   <div id="progress"></div>
 
   <script src="script.js"></script>

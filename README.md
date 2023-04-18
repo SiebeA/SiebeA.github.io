@@ -12,7 +12,6 @@ This website includes:
 ## TO-DO GP
 
 - [ ] .
-- [ ] Show both letter words, and an examplary word in full caps and normal DONE: now restyle it a bit such that only the letters are in large font
 - [ ] Pronounce ie play an audio of the letter when the user submits
 - [ ] iota, ιώτα|γιτα seems to have multiple forms; perhaps allow for an OR in the quiz
 - [ ] Add an option for the user to draw a symbol that resembles a letter in a square-space

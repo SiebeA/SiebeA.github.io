@@ -55,9 +55,17 @@ fetch('greek_letters.txt')
         feedback.innerHTML = 'Please enter an answer.';
       }
       else if (userInput === correctAnswer) {
-        console.log('correct');
-        feedback.innerHTML = 'Correct!  <br /> examples in upper and lower: <br />' + currentLetter.example1 + '<br />' + currentLetter.example2;
         feedback.style.color = "green";
+        // feedback.innerHTML = 'Correct!';
+        feedback.innerHTML = `
+          <span class="label">CORRECT!</span>
+          <br />
+          <span class="label1">Examples in UPPER and lower:</span>
+          <br />
+          <span class="example1">${currentLetter.example1}</span> <br />
+          <span class="example2">${currentLetter.example2}</span>
+        `;
+
         currentIndex++;
         if (currentIndex < greekLetters.length) {
           // displayNextLetter(); // this caused the next letter to display before the feedback was displayed THEREFORE THE USER DID NOT SEE THE 'CORRECT' FEEDBACK
@@ -67,11 +75,24 @@ fetch('greek_letters.txt')
       }      
       else if (removeAccents(userInput) === removeAccents(correctAnswer)) {
         feedback.style.color = "orange";
-        feedback.innerHTML = 'Close, small typo, answer is:' + currentLetter.name + '<br /> examples in upper and lower: <br />' + currentLetter.example1 + '<br />' + currentLetter.example2;
-        console.log('close');
+        feedback.innerHTML = `
+          <span class="label">CLOSE! dont forget the accents</span>
+          <br />
+          <span class="label1">Examples in UPPER and lower:</span>
+          <br />
+          <span class="example1">${currentLetter.example1}</span> <br />
+          <span class="example2">${currentLetter.example2}</span>
+        `;
       } else {
         feedback.style.color = "red";
-        feedback.innerHTML = 'Incorrect. The correct answer is \n' + currentLetter.name + '<br /> examples in upper and lower: <br />' + currentLetter.example1 + '<br />' + currentLetter.example2;
+        feedback.innerHTML = `
+        <span class="label">INCORRECT!, the correct answer is ${currentLetter.name}</span>
+        <br />
+        <span class="label1">Examples in UPPER and lower:</span>
+        <br />
+        <span class="example1">${currentLetter.example1}</span> <br />
+        <span class="example2">${currentLetter.example2}</span>
+      `;      
       }
     });
     
