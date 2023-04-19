@@ -3,9 +3,8 @@
 This website includes:
 
 -  my current learning projects:
-    - Learning Greek
-    - Web dev: HTML, JS, cls (together: Greek_project(GP))
-- My currenlty uphold beliefs/conclusions up for [attack]
+    - Web dev: HTML, JS, cls
+    - Learning Greek; this website ought to fill a relevant needs for learning language learning aspects--Greek in particular--that I haven't been able to find elsewhere
 
 
 
