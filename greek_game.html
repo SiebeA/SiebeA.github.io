@@ -51,6 +51,7 @@
     }
 
   </style>
+</head>
 
 <body>
   <h1>Greek Letter Quiz</h1>
@@ -61,23 +62,40 @@
   </div>
 
   <input type="text" id="answer-input">
-  <!-- # allow for enter key to submit answer after text is entered: -->
-  <script>
-    var input = document.getElementById("answer-input");
-    input.addEventListener("keyup", function(event) {
-      event.preventDefault();
-      if (event.keyCode === 13) {
-        document.getElementById("submit-button").click();
-      }
-    });
-  </script>
-
   <button id="submit-button">Submit</button>
   <button id="next-button">Next</button>
   <br>
   <p id="feedback"></p>
-  <!-- <p id="example"></p> -->
   <div id="progress"></div>
+
+  <script>
+    var submitClicked = false;
+    var input = document.getElementById("answer-input");
+    var submitButton = document.getElementById("submit-button");
+    var nextButton = document.getElementById("next-button");
+    var feedback = document.getElementById("feedback");
+
+    input.addEventListener("keyup", function(event) {
+      event.preventDefault();
+      if (event.keyCode === 13) {
+        if (!submitClicked) {
+          submitButton.click();
+        } else {
+          nextButton.click();
+        }
+      }
+    });
+
+    submitButton.addEventListener("click", function() {
+      submitClicked = true;
+      feedback.innerHTML = "";
+    });
+
+    nextButton.addEventListener("click", function() {
+      submitClicked = false;
+      feedback.innerHTML = "";
+    });
+  </script>
 
   <script src="script.js"></script>
 </body>
