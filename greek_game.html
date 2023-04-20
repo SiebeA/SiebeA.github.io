@@ -59,9 +59,22 @@
     <div id="letter-container"></div>
     <div id="instruction"></div>
   </div>
+
   <input type="text" id="answer-input">
+  <!-- # allow for enter key to submit answer after text is entered: -->
+  <script>
+    var input = document.getElementById("answer-input");
+    input.addEventListener("keyup", function(event) {
+      event.preventDefault();
+      if (event.keyCode === 13) {
+        document.getElementById("submit-button").click();
+      }
+    });
+  </script>
+
   <button id="submit-button">Submit</button>
   <button id="next-button">Next</button>
+  <br>
   <p id="feedback"></p>
   <!-- <p id="example"></p> -->
   <div id="progress"></div>

@@ -37,7 +37,7 @@ fetch('greek_letters.txt')
 
     tipsElement.innerHTML = " Requirement: <br> - The Greek language pack which will allow you to type Greek letters <br><br> Handy tools to use in conjunction with this test:<br> - a desktop translator (QTranslate) with which you can select and pronounce the selected Greek letters with a shortcut key <br> - a on screen keyboard, which shows you where the greek letters are located on the keyboard";
 
-    instruction.innerHTML = "Enter the name of the Greek letter shown below";
+    instruction.innerHTML = "Enter the name of the Greek letter shown below <br> (you can press ENTER to submit)";
 
     // Display the first Greek letter in the shuffled array
     displayNextLetter();
