@@ -1,18 +1,28 @@
-fetch('greek_letters.txt')
-  .then(response => response.text())
-  .then(data => {
+// outline:
+// 1. fetch the data from the text file
+// 2. shuffle the array of Greek letters
+// 3. get references to HTML elements
+// 4. display the first Greek letter in the shuffled array
+// 5. compare the user's input to the correct name of the letter and provide feedback to the user
+// 6. display the next Greek letter in the shuffled array when the "Next" button is clicked
+// 7. function to remove accents from Greek letters
+
+// 1. Fetch the data (asyncronously) from the text file
+fetch('greek_letters.txt') // fetch is a function
+  .then(response => response.text()) // .then is a method which belongs to the fetch function; response is the parameter of the function; response.text() is a method which belongs to the response object
+  .then(data => { // data is the parameter of the function which is the result of the previous function
     const greekLetters = data.split('\n').map(line => {
       const [letter, name, example1, example2] = line.split(',');
       return { letter, name, example1, example2 };
     });
-    // Fisher-Yates shuffle algorithm to shuffle the array of Greek letters
+    // 2. shuffle the array: Fisher-Yates shuffle algorithm to shuffle the array of Greek letters
     for (let i = greekLetters.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
       [greekLetters[i], greekLetters[j]] = [greekLetters[j], greekLetters[i]];
     }
 
-    // Get references to HTML elements
-    const tipsElement = document.getElementById("tips");
+    // 3. Get references to HTML elements
+    const tipsElement = document.getElementById("tips"); // const is a variable that cannot be reassigned
     const instruction = document.getElementById("instruction");
     const letterContainer = document.getElementById('letter-container');
     const answerInput = document.getElementById('answer-input');
@@ -21,30 +31,29 @@ fetch('greek_letters.txt')
     const feedback = document.getElementById('feedback');
     const progress = document.getElementById('progress');
 
-    let currentIndex = 0;
+    tipsElement.innerHTML = " Requirement: <br> - The Greek language pack which will allow you to type Greek letters <br><br> Handy tools to use in conjunction with this test:<br> - a desktop translator (QTranslate) with which you can select and pronounce the selected Greek letters with a shortcut key <br> - a on screen keyboard, which shows you where the greek letters are located on the keyboard";
+    instruction.innerHTML = "Enter the name of the Greek letter shown below <br> (you can press ENTER to submit)";
+
+    let currentIndex = 0; // let is a variable that can be reassigned   // var is a variable that can be reassigned
     let currentLetter = greekLetters[currentIndex];
     let completedCount = 0;
 
-    // Function to display the next Greek letter in the shuffled array
+    // 4. Display the first Greek letter in the shuffled array
     function displayNextLetter() {
       currentLetter = greekLetters[currentIndex];
       letterContainer.innerHTML = currentLetter.letter;
-      answerInput.value = '';
+      answerInput.value = ''; // clear the input field
       feedback.innerHTML = '';
       completedCount++;
       progress.innerHTML = `Progress: ${completedCount}/${greekLetters.length}`;
     }
 
-    tipsElement.innerHTML = " Requirement: <br> - The Greek language pack which will allow you to type Greek letters <br><br> Handy tools to use in conjunction with this test:<br> - a desktop translator (QTranslate) with which you can select and pronounce the selected Greek letters with a shortcut key <br> - a on screen keyboard, which shows you where the greek letters are located on the keyboard";
-
-    instruction.innerHTML = "Enter the name of the Greek letter shown below <br> (you can press ENTER to submit)";
 
     // Display the first Greek letter in the shuffled array
     displayNextLetter();
     // log the current answer
-    console.log(currentLetter.name);
 
-    // Compare the user's input to the correct name of the letter and provide feedback to the user
+    // 5. Compare the user's input to the correct name of the letter and provide feedback to the user
     feedback.style.fontSize = "30px";
 
     submitButton.addEventListener('click', function() {
@@ -76,7 +85,7 @@ fetch('greek_letters.txt')
       else if (removeAccents(userInput) === removeAccents(correctAnswer)) {
         feedback.style.color = "orange";
         feedback.innerHTML = `
-          <span class="label">CLOSE! dont forget the accents</span>
+          <span class="label">CLOSE! </span> <span style="font-size: 50px;">(mind the accents)</span> 
           <br />
           <span class="label1">Examples in UPPER and lower:</span>
           <br />
@@ -95,13 +104,13 @@ fetch('greek_letters.txt')
       `;      
       }
     });
+
     
 
-    // Display the next Greek letter in the shuffled array when the "Next" button is clicked
+    // 6. Display the next Greek letter in the shuffled array when the "Next" button is clicked
     nextButton.addEventListener('click', function() {
       currentIndex++;
       // log the current index
-      console.log(currentIndex);
       if (currentIndex < greekLetters.length) {
         displayNextLetter();
       } else {
@@ -110,7 +119,7 @@ fetch('greek_letters.txt')
     });
 
 
-    // Function to remove accents from Greek letters
+    // 7. Function to remove accents from Greek letters
     function removeAccents(str) {
       const accents = [        ['Ά', 'Α'], ['Έ', 'Ε'], ['Ή', 'Η'], ['Ί', 'Ι'], ['Ό', 'Ο'], ['Ύ', 'Υ'], ['Ώ', 'Ω'],
         ['ά', 'α'], ['έ', 'ε'], ['ή', 'η'], ['ί', 'ι'], ['ό', 'ο'], ['ύ', 'υ'], ['ώ', 'ω']
