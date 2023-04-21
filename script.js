@@ -75,9 +75,9 @@ fetch('greek_letters.txt') // fetch is a function
           <span class="example2">${currentLetter.example2}</span>
         `;
 
-        currentIndex++;
-        if (currentIndex < greekLetters.length) {
-          // displayNextLetter(); // this caused the next letter to display before the feedback was displayed THEREFORE THE USER DID NOT SEE THE 'CORRECT' FEEDBACK
+        if (currentIndex < greekLetters.length - 1) {
+          currentIndex++;
+          displayNextLetter();
         } else {
           feedback.innerHTML += ' You have completed the set!';
         }
