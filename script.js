@@ -13,7 +13,7 @@ fetch('greek_letters.txt') // fetch is a function
   .then(data => { // data is the parameter of the function which is the result of the previous function
     const greekLetters = data.split('\n').map(line => {
       const [index, letter, name, example1, example2] = line.split(',');
-      return { index: parseInt(index),letter, name, example1, example2 };
+      return { index: parseInt(index),letter, name, example1, example2 }; // the map function returns the index as a string therefore we need to convert it to an integer
     });
     // 2. shuffle the array: Fisher-Yates shuffle algorithm to shuffle the array of Greek letters
     for (let i = greekLetters.length - 1; i > 0; i--) {
@@ -31,7 +31,7 @@ fetch('greek_letters.txt') // fetch is a function
     const feedback = document.getElementById('feedback');
     const progress = document.getElementById('progress');
 
-    tipsElement.innerHTML = " Requirement: <br> - The Greek language pack which will allow you to type Greek letters <br><br> Handy tools to use in conjunction with this test:<br> - a desktop translator (QTranslate) with which you can select and pronounce the selected Greek letters with a shortcut key <br> - a on screen keyboard, which shows you where the greek letters are located on the keyboard";
+    tipsElement.innerHTML = "{tipsElement}: <br> Requirement: <br> - The Greek language pack which will allow you to type Greek letters <br><br> Handy tools to use in conjunction with this test:<br> - a desktop translator (QTranslate) with which you can select and pronounce the selected Greek letters with a shortcut key <br> - a on screen keyboard, which shows you where the greek letters are located on the keyboard";
     instruction.innerHTML = "Enter the name of the Greek letter shown below <br> (you can press ENTER to submit)";
 
     let currentIndex = 0; // let is a variable that can be reassigned   // var is a variable that can be reassigned
@@ -63,7 +63,15 @@ fetch('greek_letters.txt') // fetch is a function
       console.log("index: ", index);
       console.log(userInput, correctAnswer);
       if (userInput === '') {  // If the user does not enter an answer, display a message
-        feedback.innerHTML = 'Please enter an answer.';
+        feedback.style.color = "red";
+        feedback.innerHTML = `
+        <span class="label">INCORRECT!, the correct answer is ${currentLetter.name}</span>
+        <br />
+        <span class="label1">Examples in UPPER and lower:</span>
+        <br />
+        <span class="example1">${currentLetter.example1}</span> <br />
+        <span class="example2">${currentLetter.example2}</span>
+      `;
       }
       else if (userInput === correctAnswer) {
         feedback.style.color = "green";
@@ -77,10 +85,7 @@ fetch('greek_letters.txt') // fetch is a function
           <span class="example2">${currentLetter.example2}</span>
         `;
 
-        if (currentIndex < greekLetters.length - 1) {
-          currentIndex++;
-          displayNextLetter();
-        } else {
+        if (currentIndex === greekLetters.length - 1) {
           feedback.innerHTML += ' You have completed the set!';
         }
       }      
