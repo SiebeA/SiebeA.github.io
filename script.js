@@ -12,8 +12,8 @@ fetch('greek_letters.txt') // fetch is a function
   .then(response => response.text()) // .then is a method which belongs to the fetch function; response is the parameter of the function; response.text() is a method which belongs to the response object
   .then(data => { // data is the parameter of the function which is the result of the previous function
     const greekLetters = data.split('\n').map(line => {
-      const [letter, name, example1, example2] = line.split(',');
-      return { letter, name, example1, example2 };
+      const [index, letter, name, example1, example2] = line.split(',');
+      return { index: parseInt(index),letter, name, example1, example2 };
     });
     // 2. shuffle the array: Fisher-Yates shuffle algorithm to shuffle the array of Greek letters
     for (let i = greekLetters.length - 1; i > 0; i--) {
@@ -59,6 +59,8 @@ fetch('greek_letters.txt') // fetch is a function
     submitButton.addEventListener('click', function() {
       const userInput = answerInput.value.trim().toLowerCase();
       const correctAnswer = currentLetter.name.trim().toLowerCase();
+      const index = currentLetter.index;
+      console.log("index: ", index);
       console.log(userInput, correctAnswer);
       if (userInput === '') {  // If the user does not enter an answer, display a message
         feedback.innerHTML = 'Please enter an answer.';
@@ -103,14 +105,17 @@ fetch('greek_letters.txt') // fetch is a function
         <span class="example2">${currentLetter.example2}</span>
       `;      
       }
-    });
 
-    
+        // play sound
+      console.log(index)
+      var audio = new Audio("sounds/alphabet/" + index + ".mp3");
+      console.log(audio)
+      audio.play();
+    });
 
     // 6. Display the next Greek letter in the shuffled array when the "Next" button is clicked
     nextButton.addEventListener('click', function() {
       currentIndex++;
-      // log the current index
       if (currentIndex < greekLetters.length) {
         displayNextLetter();
       } else {

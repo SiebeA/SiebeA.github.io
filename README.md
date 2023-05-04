@@ -11,8 +11,10 @@ This website includes:
 ## TO-DO GP
 
 - [ ] .
-- [ ] Pronounce ie play an audio of the letter when the user submits
-- [ ] Allow "enter" for submit
+- [X] Pronounce ie play an audio of the letter when the user submits
+
+- [ ] Also show positive feedback (perhaps compel to press enter to proceed)
+- [ ] standardize each row in the double_letters.html
 - [ ] iota, ιώτα|γιτα seems to have multiple forms; perhaps allow for an OR in the quiz
 - [ ] Add an option for the user to draw a symbol that resembles a letter in a square-space
 - [ ] Add an option where the user can press a button to pronounce a Greek word, then a Greek ASR model returns the word it inferred from the voice input
