@@ -11,7 +11,7 @@ This website includes:
 ## TO-DO GP
 
 - [ ] .
-- [X] Pronounce ie play an audio of the letter when the user submits
+- [X] add an audio button to the greek game
 
 - [ ] Also show positive feedback (perhaps compel to press enter to proceed)
 - [ ] standardize each row in the double_letters.html

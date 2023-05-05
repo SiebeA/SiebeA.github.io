@@ -28,6 +28,7 @@ fetch('greek_letters.txt') // fetch is a function
     const answerInput = document.getElementById('answer-input');
     const submitButton = document.getElementById('submit-button');
     const nextButton = document.getElementById('next-button');
+    const audioButton = document.getElementById('audio-button');
     const feedback = document.getElementById('feedback');
     const progress = document.getElementById('progress');
 
@@ -59,8 +60,6 @@ fetch('greek_letters.txt') // fetch is a function
     submitButton.addEventListener('click', function() {
       const userInput = answerInput.value.trim().toLowerCase();
       const correctAnswer = currentLetter.name.trim().toLowerCase();
-      const index = currentLetter.index;
-      console.log("index: ", index);
       console.log(userInput, correctAnswer);
       if (userInput === '') {  // If the user does not enter an answer, display a message
         feedback.style.color = "red";
@@ -108,10 +107,14 @@ fetch('greek_letters.txt') // fetch is a function
         <br />
         <span class="example1">${currentLetter.example1}</span> <br />
         <span class="example2">${currentLetter.example2}</span>
-      `;      
+      `;   
       }
+    });
 
-        // play sound
+    // play sound
+    audioButton.addEventListener('click', function() { // addEventListener is a function that takes two arguments: the event and the function to run when the event occurs
+      const index = currentLetter.index;
+      console.log("audio session")
       console.log(index)
       var audio = new Audio("sounds/alphabet/" + index + ".mp3");
       console.log(audio)
