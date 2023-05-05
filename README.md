@@ -11,6 +11,7 @@ This website includes:
 ## TO-DO GP
 
 - [ ] .
+- [ ] double-letters.html: FEAT: press on a Greek word to hear it pronounced + show a image
 - [X] add an audio button to the greek game
 
 - [ ] Also show positive feedback (perhaps compel to press enter to proceed)
