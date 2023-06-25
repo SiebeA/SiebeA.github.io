@@ -50,6 +50,16 @@
       font-family: Times New Roman, serif;
       font-size: 20px;
     }
+    #keyboard-image {
+      position: fixed;
+      top: auto;
+      bottom: 15;
+      right: 0;
+      width: 700px; /* Adjust the width to your desired size */
+      height: auto; /* Adjust the height to maintain the aspect ratio */
+      margin-top: 20px; /* Adjust the margin-top to add space between the image and other elements */
+      margin-right: 20px; /* Adjust the margin-right to add space between the image and the right edge of the screen */
+    }
 
   </style>
 </head>
@@ -69,6 +79,8 @@
   <br>
   <p id="feedback"></p>
   <div id="progress"></div>
+
+  <img src="images1\keyboard_greek.png" id="keyboard-image">
 
   <script>
     var submitClicked = false;
@@ -107,6 +119,4 @@
 <!-- 
 #TODO
 #- 
-#- Visualize a Greek keyboard layout on the right side 
-
 -->
