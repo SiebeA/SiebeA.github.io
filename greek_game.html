@@ -3,65 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <title>Greek Game: Letter Quiz</title>
-  <style>
-    h1 {
-      text-align: left;
-    }
-    #tips {
-      font-size: 10;
-      text-align: left;
-      padding: 5px 5px 0px 50px;  /*top right bottom left */
-    }
-    #letter-container {
-      font-size: 100px;
-      text-align: left;
-      padding: 1px 5px 1px 5px;
-    }
-    #instruction {
-      font-size: 10;
-      text-align: left;
-    }
-    input {
-      font-size: 24px;
-      margin-right: 10px;
-    }
-    #submit-button,
-    #audio-button,
-    #next-button {
-      font-size: 24px;
-      padding: 5px 10px 5px 5px;
-    }
-    #feedback {
-      margin-top: 0 px;
-    }
-    .label {
-      font-family: Arial, sans-serif;
-      font-size: 20px;
-      font-weight: bold;
-    }
-    .label1 {
-      font-size: 10px;
-    }
-    .example1 {
-      font-family: Times New Roman, serif;
-      font-size: 20px;
-    }
-    .example2 {
-      font-family: Times New Roman, serif;
-      font-size: 20px;
-    }
-    #keyboard-image {
-      position: fixed;
-      top: auto;
-      bottom: 15;
-      right: 0;
-      width: 700px; /* Adjust the width to your desired size */
-      height: auto; /* Adjust the height to maintain the aspect ratio */
-      margin-top: 20px; /* Adjust the margin-top to add space between the image and other elements */
-      margin-right: 20px; /* Adjust the margin-right to add space between the image and the right edge of the screen */
-    }
 
-  </style>
+  <link rel="stylesheet" href="style.css"> <!-- this is the stylesheet that contains the styling for the quiz -->
+
 </head>
 
 <body>
@@ -82,35 +26,9 @@
 
   <img src="images1\keyboard_greek.png" id="keyboard-image">
 
-  <script>
-    var submitClicked = false;
-    var input = document.getElementById("answer-input");
-    var submitButton = document.getElementById("submit-button");
-    var nextButton = document.getElementById("next-button");
-    var feedback = document.getElementById("feedback");
+# 
+  <script src="script0.js"></script> 
 
-    // this function is called when the submit button is clicked
-    input.addEventListener("keyup", function(event) {
-      event.preventDefault();
-      if (event.keyCode === 13) { // 13 is the enter key
-        if (!submitClicked) {
-          submitButton.click();
-        } else {
-          nextButton.click();
-        }
-      }
-    });
-
-    submitButton.addEventListener("click", function() { // when the submit button is clicked
-      submitClicked = true;
-      feedback.innerHTML = ""; // clear the feedback
-    });
-
-    nextButton.addEventListener("click", function() { // when the next button is clicked
-      submitClicked = false;
-      feedback.innerHTML = "";
-    });
-  </script>
 <!-- this is the script that contains the quiz it is in a separate file -->
   <script src="script.js"></script> 
 </body>
@@ -118,5 +36,7 @@
 
 <!-- 
 #TODO
+#- make the keyboard interactive; visualize the key that is pressed; allow keys to be entered by clicking on the keyboard
 #- 
+#- Play sound automatically when the correct answer is entered
 -->
