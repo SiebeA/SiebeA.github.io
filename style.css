@@ -1,50 +1,110 @@
-<style>
+/* Global styles for both greek-alphabet.html and greek_game.html */
+body {
+  background-color: #e1e9f7;
+  color: #333;
+}
+
+header {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  padding: 10px;
+  background-color: #c3cde9;
+}
+
+nav ul li a {
+  color: #333;
+}
+
+.nav-button {
+  padding: 10px 20px;
+  font-size: 16px;
+  background-color: #c3cde9;
+  border: none;
+  color: #fff;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.nav-button:hover {
+  background-color: #8a9bc7;
+}
+
+.nav-button:focus {
+  outline: none;
+}
+
+h1 {
+  color: #2a3f73;
+}
+
+.tblalph {
+  background-color: #f2f5ff;
+}
+
+.container {
+  background-color: #1a3ba7;
+  padding: 20px;
+  border-radius: 10px;
+}
+
+/* Specific styles for greek_game.html */
 h1 {
   text-align: left;
 }
+
 #tips {
-  font-size: 10;
+  font-size: 10px;
   text-align: left;
   padding: 5px 5px 0px 50px;  /*top right bottom left */
 }
+
 #letter-container {
   font-size: 100px;
   text-align: left;
   padding: 1px 5px 1px 5px;
 }
+
 #instruction {
-  font-size: 10;
-  text-align: left;
+  font-size: 10px;
 }
+
 input {
   font-size: 24px;
   margin-right: 10px;
 }
+
 #submit-button,
 #audio-button,
 #next-button {
   font-size: 24px;
   padding: 5px 10px 5px 5px;
 }
+
 #feedback {
-  margin-top: 0 px;
+  margin-top: 0;
 }
+
 .label {
   font-family: Arial, sans-serif;
   font-size: 20px;
   font-weight: bold;
 }
+
 .label1 {
   font-size: 10px;
 }
+
 .example1 {
   font-family: Times New Roman, serif;
   font-size: 20px;
 }
+
 .example2 {
   font-family: Times New Roman, serif;
   font-size: 20px;
 }
+
 #keyboard-image {
   position: fixed;
   bottom: 0;
@@ -52,4 +112,3 @@ input {
   width: 900px; /* Adjust the width as needed */
   height: auto; /* Adjust the height as needed */
 }
-</style>
