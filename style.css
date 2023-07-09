@@ -1,25 +1,38 @@
+/*---------------------------------------------------------------  */
 /* Global styles for both greek-alphabet.html and greek_game.html */
+/*---------------------------------------------------------------  */
+
+
 body {
-  background-color: #e1e9f7;
-  color: #333;
+  background-color: #e1f7e7; /* background colour outside of the table */
+  color: #333; /* the colour of the text within the table */
 }
 
+/* table section */
+table {
+  border-collapse: collapse;
+  border: 1px solid #333;
+  background-color: #d44b25;
+}
+
+.tblalph { /* the table for the alphabet */
+  background-color: #e1f7e7;
+}
+/* end */
+
+/* Navigation bar: */
 header {
   position: fixed;
   top: 20px;
   right: 20px;
   padding: 10px;
-  background-color: #c3cde9;
-}
-
-nav ul li a {
-  color: #333;
+  background-color: #e1f7e7;
 }
 
 .nav-button {
   padding: 10px 20px;
   font-size: 16px;
-  background-color: #c3cde9;
+  background-color: #8bd0a6; /* this colours the background of the buttons */
   border: none;
   color: #fff;
   border-radius: 5px;
@@ -33,14 +46,13 @@ nav ul li a {
 .nav-button:focus {
   outline: none;
 }
+/* end */
+
 
 h1 {
   color: #2a3f73;
 }
 
-.tblalph {
-  background-color: #f2f5ff;
-}
 
 .container {
   background-color: #1a3ba7;
