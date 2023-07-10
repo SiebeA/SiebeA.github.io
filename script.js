@@ -122,9 +122,11 @@ fetch('greek_letters.txt') // fetch is a function
           <span class="example2">${currentLetter.example2}</span>
         `;
 
-        if (currentIndex === greekLetters.length - 1) {
-          feedback.innerHTML += ' You have completed the set!';
-        }
+        // Play audio
+        const index = currentLetter.index;
+        var audio = new Audio("sounds/alphabet/" + index + ".mp3");
+        audio.play();
+
       }      
       else if (removeAccents(userInput) === removeAccents(correctAnswer)) {
         feedback.style.color = "orange";
@@ -134,8 +136,13 @@ fetch('greek_letters.txt') // fetch is a function
           <span class="label1">Examples in UPPER and lower:</span>
           <br />
           <span class="example1">${currentLetter.example1}</span> <br />
-          <span class="example2">${currentLetter.example2}</span>
-        `;
+          <span class="example2">${currentLetter.example2}</span>`;
+
+          // play the audio
+          const index = currentLetter.index;
+          var audio = new Audio("sounds/alphabet/" + index + ".mp3");
+          audio.play();
+
       } else {
         feedback.style.color = "red";
         feedback.innerHTML = `
