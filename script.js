@@ -1,5 +1,9 @@
 
-// part 1 - without this part pressing enter to submit the answer does NOT work.
+
+/*---------------------------------------------------------------  */
+/*/ part 1 - without this part pressing enter to submit the answer does NOT work.
+/*---------------------------------------------------------------  */
+
 var submitClicked = false;
 var input = document.getElementById("answer-input");
 var submitButton = document.getElementById("submit-button");
@@ -29,7 +33,9 @@ nextButton.addEventListener("click", function() { // when the next button is cli
 });
 
 
-// part 2
+/*---------------------------------------------------------------  */
+/* part 2 - this part is the main part of the script
+/*---------------------------------------------------------------  */
 // outline:
 // 1. fetch the data from the text file
 // 2. shuffle the array of Greek letters
@@ -123,7 +129,7 @@ fetch('greek_letters.txt') // fetch is a function
       else if (removeAccents(userInput) === removeAccents(correctAnswer)) {
         feedback.style.color = "orange";
         feedback.innerHTML = `
-          <span class="label">CLOSE! </span> <span style="font-size: 50px;">(mind the accents)</span> 
+          <span class="label">CLOSE! </span> <span style="font-size: 30px;">(mind the accents):    ${currentLetter.name} </span>
           <br />
           <span class="label1">Examples in UPPER and lower:</span>
           <br />
