@@ -1,8 +1,26 @@
-/*---------------------------------------------------------------  */
-/* Global styles for both greek-alphabet.html and greek_game.html */
-/*---------------------------------------------------------------  */
+                          /*---------------------------------------------------------------  */
+                          /* Global styles for both greek-alphabet.html and greek_game.html */
+                          /*---------------------------------------------------------------  */
 
 
+/*---------------------------------------------------------------  */
+/*double-letters.html */
+/*---------------------------------------------------------------  */
+table, th, td { /* # the table, table header and table data */
+  border: 1px solid rgb(0, 0, 0);
+  background-color: #e1f7e7;
+  border-collapse: collapse;
+  padding: 10px;
+        margin-left: auto;
+        margin-right: auto;
+
+
+}
+
+
+/*---------------------------------------------------------------  */
+/*greek-alphabet.html */
+/*---------------------------------------------------------------  */
 body {
   background-color: #e1f7e7; /* background colour outside of the table */
   color: #333; /* the colour of the text within the table */
@@ -48,6 +66,9 @@ header {
 }
 /* end */
 
+/*---------------------------------------------------------------  */
+/* Greek_game.html
+/*---------------------------------------------------------------  */
 
 h1 {
   color: #2a3f73;
@@ -60,7 +81,6 @@ h1 {
   border-radius: 10px;
 }
 
-/* Specific styles for greek_game.html */
 h1 {
   text-align: left;
 }
@@ -121,6 +141,6 @@ input {
   position: fixed;
   bottom: 0;
   right: 0;
-  width: 900px; /* Adjust the width as needed */
+  width: 700px; /* Adjust the width as needed */
   height: auto; /* Adjust the height as needed */
 }
