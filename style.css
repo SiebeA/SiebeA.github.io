@@ -13,9 +13,11 @@ table, th, td { /* # the table, table header and table data */
   padding: 10px;
         margin-left: auto;
         margin-right: auto;
-
-
+        margin-top: 20px;
+  table-layout: fixed;
+  width: 70%;
 }
+)
 
 
 /*---------------------------------------------------------------  */

@@ -1,38 +1,44 @@
 <!DOCTYPE html>
 
+
+
 <html>
 <head>
+	<link rel="stylesheet" href="style.css"> <!-- this is the stylesheet that contains the styling for the quiz -->
 	<title>Greek Dipthongs</title>
-	<style>
-		table, th, td {
-			border: 1px solid black;
-			border-collapse: collapse;
-			padding: 10px;
-            margin-left: auto;
-            margin-right: auto;
 
-		}
-	</style>
 </head>
 <body>
-	<table>
-		<tr>
-			<th>Greek Vowels</th>
-			<th>Examples -------------------------------------------------------------</th>
-			<th>Pronunciation</th>
-		</tr>
-		<tr>
-			<td>αι</td>
-			<td>αίμα     -   ναι <br>
-                ΑΊΜΑ     -   ΝΑΙ</td>
-			<td>like e in bet</td>
+	<table id="double-letters1">
+	  <tr>
+		<th>Greek Vowels</th>
+		<th>Examples </th>
+		<th>Pronunciation</th>
+	  </tr>
+	  <tr>
+		<td>αι</td>
+		  <audio id="ai-audio" controls style="display: none;">
+			<source src="sounds/double_letters/ai.mp3" type="audio/mp3">
+			Your browser does not support the audio element.
+		  </audio>  </td> <!-- Close the <td> tag here -->
+		<td>αίμα - ναι <br> ΑΊΜΑ - ΝΑΙ</td>
+		<td>like e in bet</td>
+  
+		<script>
+		  const aiAudio = document.getElementById('ai-audio');
+		  const aiText = document.querySelector('td:first-child');
+  
+		  aiText.addEventListener('click', function() {
+			aiAudio.play();
+		  });
+		</script>
 		</tr>
 		<tr>
 			<td>οι</td>
 			<td>οικογένεια - οίδα <br>
 				ΟΙΚΟΓΈΝΕΙΑ - ΟΊΔΑ</td>
 				 </td>
-			<td>like ou in Lou</td>
+			<td>like ee in beet</td>
 		</tr>
 		<tr>
 			<td>υι</td>
@@ -55,7 +61,7 @@
 				<br>
 				ΟΥΡΑΝΌΣ - ΟΥΡΑΝΌΣ - ΟΥΣΊΑ</td>
 			</td>
-			<td>like ef in "cleff"</td>
+			<td>like ou in Lou</td>
 		</tr>
 		<tr>
 			<td>αυ</td>
@@ -73,12 +79,14 @@
 			</td>
 			<td>like ef in "cleff</td>
 		</tr>
-	</table>
+
+
+	</table id=="double-letters2">
         <table>
             <thead>
                 <tr>
-                    <th>Consonants -----</th>
-                    <th>Examples-------------------------------------------------------------</th>
+                    <th>Consonants </th>
+                    <th>Examples </th>
                     <th>Pronunciation</th>
                 </tr>
             </thead>
