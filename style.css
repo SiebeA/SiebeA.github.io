@@ -6,9 +6,15 @@
 /*---------------------------------------------------------------  */
 /*double-letters.html */
 /*---------------------------------------------------------------  */
+
+body {
+  background-color: #e1f7e7; /* background colour outside of the table */
+  color: #333; /* the colour of the text within the table */
+}
+
 table, th, td { /* # the table, table header and table data */
   border: 1px solid rgb(0, 0, 0);
-  background-color: #e1f7e7;
+  background-color: #e1f7e7; /* background colour inside of the table */
   border-collapse: collapse;
   padding: 10px;
         margin-left: auto;
@@ -17,7 +23,6 @@ table, th, td { /* # the table, table header and table data */
   table-layout: fixed;
   width: 70%;
 }
-)
 
 
 /*---------------------------------------------------------------  */
