@@ -30,19 +30,19 @@
     <td>0 | μηδέν | ΜΗΔΈΝ</td>
     <td>Σειμπε</td>
     <td>Ολλανδία</td>
-    <td>Ευχαριστώ</td>
+    <td>Ευχαριστώ : Παρακαλώ  Συγνώμη </td>
   </tr>
   <tr>
     <td>1 | ένα | ΈΝΑ</td>
     <td>Πλάτων</td>
     <td>Αθήνα</td>
-    <td>Παρακαλώ</td>
+    <td>Γειά σας</td>
   </tr>
   <tr>
     <td>2 | δύο | ΔΎΟ</td>
     <td>Ἀριστοτέλης</td>
     <td>Όλυμπος</td>
-    <td>Πώς σας λένε</td>
+    <td>Με λένε Siebe Πώς σας λένε</td>
   </tr>
   <tr>
     <td>3 | τρία | ΤΡΊΑ</td>
@@ -93,3 +93,38 @@
     <td>Είμαι ευτυχισμένος</td>
   </tr>
 </table>
+
+<script>
+  // Function to handle the TTS when a cell is clicked
+  function speakText(text) {
+      const speechSynthesis = window.speechSynthesis;
+      const utterance = new SpeechSynthesisUtterance();
+      utterance.text = text;
+      utterance.lang = "el-GR"; // Set the language to Greek (Greece)
+      speechSynthesis.speak(utterance);
+      utterance.rate = 0.8;
+  }
+
+  // Map of Greek words to their IPA pronunciations
+  const greekPronunciations = {
+      "μηδέν": "[ˈmi.ðe̞n]",
+      "ΜΗΔΈΝ": "[ˈmi.ðe̞n]",
+      // "Σειμπε": "[ˈsi.mpe̞]",
+      // Add more Greek words and their IPA pronunciations as needed...
+  };
+
+  const tableCells = document.querySelectorAll("#Proper-Nouns td");
+
+  // Add click event listeners to each cell
+  tableCells.forEach((cell) => {
+      cell.addEventListener("click", () => {
+          const cellText = cell.textContent.trim();
+          const cellTextInIPA = greekPronunciations[cellText] || cellText;
+          speakText(cellTextInIPA);
+      });
+  });
+</script>
+
+</body>
+
+</html>

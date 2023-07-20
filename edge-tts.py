@@ -10,7 +10,9 @@ WordBoundary events to create subtitles using SubMaker.
 import asyncio
 import edge_tts
 
-voices = """
+# voices_all
+# voices_gr =
+voices_es = """
 Name: es-AR-ElenaNeural
 Gender: Female
 
@@ -78,19 +80,19 @@ Name: es-VE-PaolaNeural
 Gender: Female
 """
 
-# store voices in a list
-voices = voices.split("\n\n")
+# store voices_es in a list
+voices_es = voices_es.split("\n\n")
 
-voices_list = []
-for i in range(1, len(voices)):
-    # print(voices[i][0][6:])
-    voices_list.append(voices[i][6:-15])
+voices_es_list = []
+for i in range(1, len(voices_es)):
+    # print(voices_es[i][0][6:])
+    voices_es_list.append(voices_es[i][6:-15])
 
 
 
 async def amain() -> None:
     """Main function"""
-    communicate = edge_tts.Communicate(TEXT, VOICE2, rate=RATE)
+    communicate = edge_tts.Communicate(TEXT, VOICE_GREEK, rate=RATE)
     submaker = edge_tts.SubMaker()
     with open(OUTPUT_FILE, "wb") as file:
         async for chunk in communicate.stream():
@@ -100,9 +102,11 @@ async def amain() -> None:
                 submaker.create_sub((chunk["offset"], chunk["duration"]), chunk["text"])
 
 
-TEXT = "Amigo, Soy un hombre de los paises Bajos"
+TEXT = "Πώς σε λένε? Με λένε Σειμπε! Τι κάνεις? Καλά ενχαριστώ!"
+# TEXT = "Amigo, Soy un hombre de los paises Bajos"
 # VOICE = "es-ES-ElviraNeural"
-VOICE2 = voices_list[2]
+# VOICE2 = voices_es_list[2]
+VOICE_GREEK = 'el-GR-AthinaNeural'
 OUTPUT_FILE = "test.mp3"
 RATE = "-10%"
 # WEBVTT_FILE = "test.vtt"
