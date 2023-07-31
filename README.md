@@ -11,12 +11,14 @@ This website includes:
 ## TO-DO GP
 
 - [ ] .
+- [ ] Proper-nouns.html
+- [ ] . FEAT: click on a word to toggle the English/Greek in a cell; 
+  - [ ] pronouns words with tts
+  - [ ] words: protein, etc; bread; milk, groceries
 - [ ] double-letters.html:
-  - [ ] implement audio; ask chatgpt to extrapolute 'ai' example to all other greek-vowels
   - [ ] Adding extra table rows by means of eg excel: is there an interface to add it to the code?
   - [ ] .
 - [ ] greek_game.html:
-  - [ ] Play sound automatically when the correct answer is entered
   - [ ] Embedd the audio of the Greek letters (greek-alphabet.html) in the Keyboard; press a letter on the keyboard and audio will play
   - [ ] make the keyboard interactive; visualize the key that is pressed; allow keys to be entered by clicking on the keyboard
   - [ ] when it is close; show the user the correct answer
