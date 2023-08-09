@@ -68,7 +68,7 @@ fetch('greek_letters.txt') // fetch is a function
     const feedback = document.getElementById('feedback');
     const progress = document.getElementById('progress');
 
-    tipsElement.innerHTML = "<br> Requirement: <br> - The Greek language pack which will allow you to type Greek letters <br><br> Handy tools to use in conjunction with this test:<br> - a desktop translator (QTranslate) with which you can select and pronounce the selected Greek letters with a shortcut key <br> - a on screen keyboard, which shows you where the greek letters are located on the keyboard";
+    tipsElement.innerHTML = "<br> Requirement: <br> - The Greek language pack which will allow you to type Greek letters <br> HOWTO: windows search 'language settings' THEN 'add laguage: Greek' THEN press the hotkey 'win+spacebar' to cycle between Greek language and your other language.<br><br>";
     instruction.innerHTML = "Enter the name of the Greek letter shown below <br> (you can press ENTER to submit)";
 
     let currentIndex = 0; // let is a variable that can be reassigned   // var is a variable that can be reassigned
