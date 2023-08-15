@@ -151,14 +151,6 @@
 			speechSynthesis.speak(utterance);
 			}
 
-			// Map of Greek words to their IPA pronunciations
-			const greekPronunciations = {
-			"μηδέν": "[ˈmi.ðe̞n]",
-			"ΜΗΔΈΝ": "[ˈmi.ðe̞n]",
-			// "μπ" : "[b]",
-			// Add more Greek words and their IPA pronunciations as needed...
-			};
-
 			function addClickListeners(tableId) {
    			const tableCells = document.querySelectorAll(`#${tableId} td`);
 
@@ -166,16 +158,13 @@
 				cell.addEventListener("click", () => {
 					const cellText = cell.textContent.trim();
 					console.log(`Clicked cell text: ${cellText}`);
-					// Choose the correct pronunciation map based on the table
-					const pronunciationMap = tableId === "double-letters1" ? greekPronunciations : greekPronunciations;
-					const cellTextInIPA = pronunciationMap[cellText] || cellText;
-					speakText(cellTextInIPA);
+					speakText(cellText);
         });
     });
 }
 
 // Attach event listeners to both tables
-addClickListeners("double-letters1");
+addClickListeners("double-letters1"); //# addClickListeners is the function that is called when a cell is clicked
 addClickListeners("double-letters2");
 
 
