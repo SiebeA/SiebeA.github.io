@@ -20,6 +20,8 @@
 		  </ul>
 		</nav>
 	  </header>
+
+
 	<table id="double-letters1">
 	  <tr>
 		<th>Greek Vowels</th>
@@ -28,21 +30,9 @@
 	  </tr>
 	  <tr>
 		<td>αι</td>
-		  <audio id="ai-audio" controls style="display: none;">
-			<source src="sounds/double_letters/ai.mp3" type="audio/mp3">
-			Your browser does not support the audio element.
-		  </audio>  </td> <!-- Close the <td> tag here -->
 		<td>αίμα - ναι <br> ΑΊΜΑ - ΝΑΙ</td>
 		<td>like e in bet</td>
   
-		<script>
-		  const aiAudio = document.getElementById('ai-audio');
-		  const aiText = document.querySelector('td:first-child');
-  
-		  aiText.addEventListener('click', function() {
-			aiAudio.play();
-		  });
-		</script>
 		</tr>
 		<tr>
 			<td>οι</td>
@@ -92,92 +82,102 @@
 		</tr>
 
 
-	</table id="double-letters2">
-        <table>
-            <thead>
-                <tr>
-                    <th>Consonants </th>
-                    <th>Examples </th>
-                    <th>Pronunciation</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>μπ</td>
-                    <td>μπαμπάς - μπανάνα - μπίρα <br><br>
-                        ΜΠΑΜΠΆΣ - ΜΠΑΝΆΝΑ - ΜΠΊΡΑ                 </td>
-                    <td>b like b in boy</td>
-                </tr>
-                <tr>
-                    <td>ντ</td>
-                    <td>ντύνω - ντομάτα 
-						<br>
-						ΝΤΎΝΩ - ΝΤΟΜΆΤΑ</td>
-					</td>
-                    <td>d like d in door</td>
-                </tr>
-                <tr>
-                    <td>γκ</td>
-                    <td>άγκυρα - γκρουπ
-						<br>
-						ΆΓΚΥΡΑ - ΓΚΡΟΥΠ</td>
-					</td>
-                    <td>g like g in get</td>
-                </tr>
-                <tr>
-                    <td>γγ</td>
-                    <td>Ευάγγελος - παγγενής  - αγγούρι	<br>
-						ΕΥΆΓΓΕΛΟΣ - ΠΑΓΓΕΝΉΣ  - ΑΓΓΟΎΡΙ</td>
-					</td>
-                    <td>g like g in get</td>
-                </tr>
-                    <tr>
-                    <td>τσ</td>
-                    <td>τσέπη - τσάι - τσάντα 
-						<br>
-						ΤΣΈΠΗ - ΤΣΆΙ - ΤΣΆΝΤΑ</td>
-					</td>
-                    <td>ts like ts in pots</td>
-                </tr>
-                <tr>
-                    <td>τζ</td>
-                    <td>τζάκι - τζίνι - τζατζίκι <br>
-						ΤΖΆΚΙ - ΤΖΊΝΙ - ΤΖΑΤΖΊΚΙ</td>
-						 </td>
-                    <td>dg like dg in lodge</td>
-                </tr>
-            </tbody>
-        </table>
+	<table id="double-letters2">
+	<tr>
+		<th>Consonants </th>
+		<th>Examples </th>
+		<th>Pronunciation</th>
+	</tr>
+</thead>
+<tbody>
+	<tr>
+		<td>μπ</td>
+		<td>μπαμπάς - μπανάνα - μπίρα <br><br>
+			ΜΠΑΜΠΆΣ - ΜΠΑΝΆΝΑ - ΜΠΊΡΑ                 </td>
+		<td>b like b in boy</td>
+	</tr>
+	<tr>
+		<td>ντ</td>
+		<td>ντύνω - ντομάτα 
+			<br>
+			ΝΤΎΝΩ - ΝΤΟΜΆΤΑ</td>
+		</td>
+		<td>d like d in door</td>
+	</tr>
+	<tr>
+		<td>γκ</td>
+		<td>άγκυρα - γκρουπ
+			<br>
+			ΆΓΚΥΡΑ - ΓΚΡΟΥΠ</td>
+		</td>
+		<td>g like g in get</td>
+	</tr>
+	<tr>
+		<td>γγ</td>
+		<td>Ευάγγελος - παγγενής  - αγγούρι	<br>
+			ΕΥΆΓΓΕΛΟΣ - ΠΑΓΓΕΝΉΣ  - ΑΓΓΟΎΡΙ</td>
+		</td>
+		<td>g like g in get</td>
+	</tr>
+		<tr>
+		<td>τσ</td>
+		<td>τσέπη - τσάι - τσάντα 
+			<br>
+			ΤΣΈΠΗ - ΤΣΆΙ - ΤΣΆΝΤΑ</td>
+		</td>
+		<td>ts like ts in pots</td>
+	</tr>
+	<tr>
+		<td>τζ</td>
+		<td>τζάκι - τζίνι - τζατζίκι <br>
+			ΤΖΆΚΙ - ΤΖΊΝΙ - ΤΖΑΤΖΊΚΙ</td>
+				</td>
+		<td>dg like dg in lodge</td>
+	</tr>
+<!-- </tbody>
+</table> -->
 
 		<script>
 			// Function to handle the TTS when a cell is clicked
 			function speakText(text) {
-				const speechSynthesis = window.speechSynthesis;
-				const utterance = new SpeechSynthesisUtterance();
-				utterance.text = text;
-				utterance.lang = "el-GR"; // Set the language to Greek (Greece)
-				speechSynthesis.speak(utterance);
-				utterance.rate = 0.8;
+			const speechSynthesis = window.speechSynthesis;
+			const utterance = new SpeechSynthesisUtterance();
+			utterance.text = text;
+			utterance.lang = "el-GR"; // Set the language to Greek (Greece)
+			utterance.rate = 0.8;
+			
+			// Stop any ongoing speech before starting a new one
+			speechSynthesis.cancel();
+			speechSynthesis.speak(utterance);
 			}
-		  
+
 			// Map of Greek words to their IPA pronunciations
 			const greekPronunciations = {
-				"μηδέν": "[ˈmi.ðe̞n]",
-				"ΜΗΔΈΝ": "[ˈmi.ðe̞n]",
-				// "Σειμπε": "[ˈsi.mpe̞]",
-				// Add more Greek words and their IPA pronunciations as needed...
+			"μηδέν": "[ˈmi.ðe̞n]",
+			"ΜΗΔΈΝ": "[ˈmi.ðe̞n]",
+			// "μπ" : "[b]",
+			// Add more Greek words and their IPA pronunciations as needed...
 			};
-		  
-			const tableCells = document.querySelectorAll("#double-letters1 td");
-		  
-			// Add click event listeners to each cell
+
+			function addClickListeners(tableId) {
+   			const tableCells = document.querySelectorAll(`#${tableId} td`);
+
 			tableCells.forEach((cell) => {
 				cell.addEventListener("click", () => {
 					const cellText = cell.textContent.trim();
-					const cellTextInIPA = greekPronunciations[cellText] || cellText;
+					console.log(`Clicked cell text: ${cellText}`);
+					// Choose the correct pronunciation map based on the table
+					const pronunciationMap = tableId === "double-letters1" ? greekPronunciations : greekPronunciations;
+					const cellTextInIPA = pronunciationMap[cellText] || cellText;
 					speakText(cellTextInIPA);
-				});
-			});
+        });
+    });
+}
+
+// Attach event listeners to both tables
+addClickListeners("double-letters1");
+addClickListeners("double-letters2");
+
 
 		  </script>
 
