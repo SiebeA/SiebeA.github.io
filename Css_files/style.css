@@ -1,0 +1,164 @@
+                          /*---------------------------------------------------------------  */
+                          /* Global styles for both greek-alphabet.html and greek_game.html */
+                          /*---------------------------------------------------------------  */
+
+
+/*---------------------------------------------------------------  */
+/*double-letters.html */
+/*---------------------------------------------------------------  */
+
+body {
+  background-color: #e1f7e7; /* background colour outside of the table */
+  color: #333; /* the colour of the text within the table */
+}
+
+table, th, td { /* # the table, table header and table data */
+  border: 1px solid rgb(0, 0, 0);
+  background-color: #e1f7e7; /* background colour inside of the table */
+  border-collapse: collapse;
+  padding: 10px;
+        margin-left: auto;
+        margin-right: auto;
+        margin-top: 20px;
+  table-layout: fixed;
+  width: 70%;
+}
+
+
+/*---------------------------------------------------------------  */
+/*greek-alphabet.html */
+/*---------------------------------------------------------------  */
+body {
+  background-color: #e1f7e7; /* background colour outside of the table */
+  color: #333; /* the colour of the text within the table */
+}
+
+/* table section */
+table {
+  border-collapse: collapse;
+  border: 1px solid #333;
+  background-color: #d44b25;
+}
+
+.tblalph { /* the table for the alphabet */
+  background-color: #e1f7e7;
+}
+/* end */
+
+/* Navigation bar: */
+header {
+  /* position: fixed; */
+  top: 0;
+  left: 0;
+  right: 0;
+  padding: 10px;
+  background-color: #e1f7e7;
+  z-index: 100;
+}
+
+nav ul {
+  display: flex;
+  justify-content: space-between;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.nav-button {
+  padding: 10px 50px;
+  font-size: 16px;
+  background-color: #8bd0a6; /* this colours the background of the buttons */
+  border: none;
+  color: #fff;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.nav-button:hover {
+  background-color: #8a9bc7;
+}
+
+.nav-button:focus {
+  outline: none;
+}
+/* end */
+
+
+/*---------------------------------------------------------------  */
+/* Greek_game.html
+/*---------------------------------------------------------------  */
+
+h1 {
+  color: #2a3f73;
+}
+
+
+.container {
+  background-color: #1a3ba7;
+  padding: 20px;
+  border-radius: 10px;
+}
+
+h1 {
+  text-align: left;
+}
+
+#tips {
+  font-size: 10px;
+  text-align: left;
+  padding: 5px 5px 0px 50px;  /*top right bottom left */
+}
+
+#letter-container {
+  font-size: 100px;
+  text-align: left;
+  padding: 1px 5px 1px 5px;
+}
+
+#instruction {
+  font-size: 10px;
+}
+
+input {
+  font-size: 24px;
+  margin-right: 10px;
+}
+
+#submit-button,
+#audio-button,
+#next-button {
+  font-size: 24px;
+  padding: 5px 10px 5px 5px;
+}
+
+#feedback {
+  margin-top: 0;
+}
+
+.label {
+  font-family: Arial, sans-serif;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.label1 {
+  font-size: 10px;
+}
+
+.example1 {
+  font-family: Times New Roman, serif;
+  font-size: 20px;
+}
+
+.example2 {
+  font-family: Times New Roman, serif;
+  font-size: 20px;
+}
+
+#keyboard-image {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  width: 700px; /* Adjust the width as needed */
+  height: auto; /* Adjust the height as needed */
+}
