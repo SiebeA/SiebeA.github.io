@@ -33,6 +33,25 @@ body {
   color: #333; /* the colour of the text within the table */
 }
 
+/* Style tooltips */
+td[title] {
+  position: relative; /* Make sure it's a positioned element */
+}
+
+td[title]:hover::after {
+  content: attr(title); /* Display the title attribute as content */
+  position: absolute;
+  background-color: #333; /* Change background color */
+  color: #fff; /* Change text color */
+  font-size: 16px; /* Change font size */
+  padding: 8px; /* Adjust padding for spacing */
+  border-radius: 4px; /* Add rounded corners */
+  z-index: 1; /* Ensure the tooltip appears on top of other elements */
+  white-space: nowrap; /* Prevent text from wrapping */
+  /* You can also add other CSS properties like width, max-width, etc. */
+}
+
+
 /* table section */
 table {
   border-collapse: collapse;
