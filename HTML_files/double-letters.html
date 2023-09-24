@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+
+
+
+<html>
+<head>
+	<link rel="stylesheet" type="text/css" href="../../Css_files/style.css">
+	<title>Greek Dipthongs</title>
+
+</head>
+<body>
+
+		<header>
+		<nav>
+			<ul>
+				<!-- <li><a href="../HTML_files/">Home</a></li> -->
+				<li><a href="../HTML_files/index.html">Index</a></li>
+				<li><a href="../HTML_files/greek-alphabet.html">Greek alphabet with examples & pronunciation</a></li>
+				<li><a href="../HTML_files/greek_game.html">Greek alphabet Quiz for practice</a></li>
+				<li><a href="../HTML_files/proper-nouns.html">Proper nouns</a></li>
+				<li><a href="../Data_sourcing_files/Pdf_files/testament-greek-en.pdf">Greek-English New Testament</a></li>
+			</ul>
+		</nav>
+	  </header>
+
+
+	<table id="double-letters1">
+	  <tr>
+		<th>Greek Vowels</th>
+		<th>Examples </th>
+		<th>CAPITALS</th>
+		<th>Pronunciation</th>
+	  </tr>
+	  <tr>
+		<td>αι</td>
+		<td>αίμα ; ναι</td>
+		<td>ΑΊΜΑ . ΝΑΙ</td>
+		<td>e in bet</td>
+  
+		</tr>
+		<tr>
+			<td>οι</td>
+			<td>οικογένεια  . οίδα</td>
+				 </td>
+			<td>ΟΙΚΟΓΈΝΕΙΑ  . ΟΊΔΑ</td>
+			<td>ee in beetle</td>
+		</tr>
+		<tr>
+			<td>υι</td>
+			<td>υιός</td>
+			<td>ΥΙΌΣ</td>
+			<td>ee in beetle</td>
+		</tr>
+		<tr>
+			<td>ει</td>
+			<td>είμαι  . ειρήνη</td>
+			<td>ΕΊΜΑΙ  . ΕΙΡΉΝΗ</td>
+			<td>like ee in beet</td>
+		</tr>
+		<tr>
+			<td>ου</td>
+			<td>ουρανός   . ουσία</td>
+			<td>ΟΥΡΑΝΌΣ   . ΟΥΣΊΑ</td>
+			<td>like ou in Lou</td>
+		</tr>
+		<tr>
+			<td>αυ</td>
+			<td>αυτί  . αυτοκίνητο  . αυγό </td>
+			<td>ΑΥΤΊ  . ΑΥΤΟΚΊΝΗΤΟ  . ΑΥΓΌ </td>
+			<td>like af in "after"</td>
+		</tr>
+		<tr>
+			<td>ευ</td>
+			<td>ευχαριστώ . ευφορία</td>
+			<td>ΕΥΧΑΡΙΣΤΏ  . ΕΥΦΟΡΊΑ</td>
+			<td>like ef in "cleff</td>
+		</tr>
+
+
+	<table id="double-letters2">
+	<tr>
+		<th>Consonants </th>
+		<th>Examples </th>
+		<th>.CAPITALS </th>
+		<th>Pronunciation</th>
+	</tr>
+</thead>
+<tbody>
+	<tr>
+		<td>μπ</td>
+		<td>μπαμπάς  . μπανάνα  . μπίρα </td>
+		<td>	ΜΠΑΜΠΆΣ  . ΜΠΑΝΆΝΑ  . ΜΠΊΡΑ                 </td>
+		<td>b as in boy</td>
+	</tr>
+	<tr>
+		<td>ντ</td>
+		<td>ντύνω  . ντομάτα </td>
+		<td>ΝΤΎΝΩ  . ΝΤΟΜΆΤΑ</td>
+		</td>
+		<td>d as in door</td>
+	</tr>
+	<tr>
+		<td>γκ</td>
+		<td>άγκυρα  . γκρουπ</td>
+			
+		<td>	ΆΓΚΥΡΑ  . ΓΚΡΟΥΠ</td>
+		</td>
+		<td>g as in get</td>
+	</tr>
+	<tr>
+		<td>γγ</td>
+		<td>Ευάγγελος  . παγγενής	</td>
+		<td>	ΕΥΆΓΓΕΛΟΣ  . ΠΑΓΓΕΝΉΣ   . ΑΓΓΟΎΡΙ</td>
+		</td>
+		<td>g as in get</td>
+	</tr>
+		<tr>
+		<td>τσ</td>
+		<td>τσέπη  . τσάι  </td>
+			<br>
+			<td>ΤΣΈΠΗ  . ΤΣΆΙ  . ΤΣΆΝΤΑ</td>
+		</td>
+		<td>ts as in pots</td>
+	</tr>
+	<tr>
+		<td>τζ</td>
+		<td>τζάκι  . τζατζίκι </td>
+		<td>	ΤΖΆΚΙ  . ΤΖΊΝΙ  . ΤΖΑΤΖΊΚΙ</td>
+				</td>
+		<td>dg as in lodge</td>
+	</tr>
+<! . . </tbody>
+</table>  . .>
+
+		<script>
+			// Function to handle the TTS when a cell is clicked
+			function speakText(text) {
+			const speechSynthesis = window.speechSynthesis;
+			const utterance = new SpeechSynthesisUtterance();
+			utterance.text = text;
+			utterance.lang = "el-GR"; // Set the language to Greek (Greece)
+			utterance.rate = 0.8;
+			
+			// Stop any ongoing speech before starting a new one
+			speechSynthesis.cancel();
+			speechSynthesis.speak(utterance);
+			}
+
+			function addClickListeners(tableId) {
+   			const tableCells = document.querySelectorAll(`#${tableId} td`);
+
+			tableCells.forEach((cell) => {
+				cell.addEventListener("click", () => {
+					const cellText = cell.textContent.trim();
+					console.log(`Clicked cell text: ${cellText}`);
+					speakText(cellText);
+        });
+    });
+}
+
+// Attach event listeners to both tables
+addClickListeners("double-letters1"); //# addClickListeners is the function that is called when a cell is clicked
+addClickListeners("double-letters2");
+
+
+		  </script>
+
+</body>
+</html>

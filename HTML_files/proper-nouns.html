@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+	<link rel="stylesheet" type="text/css" href="../../Css_files/style.css">
+	<title>Famous proper names</title>
+
+</head>
+<body>
+
+	<header>
+		<nav>
+		  <ul> <!-- # ul stands for unordered list -->
+			<li><a href="/HTML_files/index.html"><button class="nav-button">Index</button></a></li>
+			<li><a href="/HTML_files/greek-alphabet.html"><button class="nav-button">Greek alphabet with examples & pronunciation</button></a></li>
+			<li><a href="/HTML_files/double-letters.html"><button class="nav-button">Greek double letter sounds</button></a></li>
+			<li><a href="/HTML_files/greek_game.html"><button class="nav-button">Greek alphabet Quiz for practice</button></a></li>
+		  </ul>
+		</nav>
+	  </header>
+
+<!-- '''
+ΕΝΕΡΓΕΙΑ
+ΛΙΠΑΡΑ
+... ΚΟΡΕΣΜΕΝΑ
+ΥΔΑΤΑΝΘΡΑΚΕΣ
+--- ΕΚ ΤΩΝ ΟΠΟΩΝ ΣΑΚΧΑΡΑ
+ΠΡΩΤΕΙΝΕΣ
+ΑΛΑΤΙ
+''' -->
+
+<table id="Proper-Nouns">
+  <tr>
+    <th>Numbers</th>
+    <th>Characters</th>
+    <th>Places</th>
+    <th>Expressions</th>
+  </tr>
+  <tr>
+    <td>0 ; μηδέν ; ΜΗΔΈΝ</td>
+    <td>Θεός</td>
+    <td>Ολλανδία ; Ολλανδός</td>
+    <td>Γειά σου ; Γειά σας </td>
+  </tr>
+  <tr>
+    <td>1 ; ένα ; ΈΝΑ</td>
+    <td>Θαλῆς; Πυθαγόρας; Ηράκλειτος; Ζήνων; Δημόκριτος;  </td>
+    <td>Αθήνα</td>
+    <td>Ευχαριστώ ; Παρακαλώ ; σιγνώμι  </td>
+  </tr>
+  <tr>
+    <td>2 ; δύο ; ΔΎΟ</td>
+    <td>Σωκράτης; Πλάτων; Αριστοτέλης; Ἀλέξανδρος </td>
+    <td>Όλυμπος</td>
+    <td>Με λένε Siebe ; Πώς σας λένε?</td>
+  </tr>
+  <tr>
+    <td>3 ; τρία ; ΤΡΊΑ</td>
+    <td>Οἰδίπους; Σίσυφος; Προμηθεὺς </td>
+    <td>Ελλάδα ; Ελληνικά </td>
+    <td>Μιλάτε ελληνικά και αγγλικά?</td>
+  </tr>
+  <tr>
+    <td>4 ; τέσσερα ; ΤΈΣΣΕΡΑ</td>
+    <td>Σοφοκλής; ...; Αἰσχύλος  </td>
+    <td>Θεσσαλονίκη</td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>5 ; πέντε ; ΠΈΝΤΕ</td>
+    <td></td>
+    <td>Κρήτη</td>
+    <td>Δεν υπάρχει πρόβλημα</td>
+  </tr>
+  <tr>
+    <td>6 ; έξι ; ΈΞΙ</td>
+    <td></td>
+    <td>Λιτόχωρο / Λιτόχωρον</td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>7 ; επτά ; ΕΠΤΆ</td>
+    <td></td>
+    <td>Όλυμπος</td>
+    <td>Δεν καταλαβαίνω</td>
+  </tr>
+  <tr>
+    <td>8 ; οκτώ ; ΟΚΤΏ</td>
+    <td></td>
+    <td></td>
+    <td>Συγνώμη</td>
+  </tr>
+  <tr>
+    <td>9 ; εννέα ; ΕΝΝΈΑ</td>
+    <td>Περίκλης</td>
+    <td></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>10 ; δέκα ; ΔΈΚΑ</td>
+    <td>Σειμπε</td>
+    <td>Ρόδος</td>
+    <td>Είμαι ευτυχισμένος</td>
+  </tr>
+</table>
+
+<script>
+  // Function to handle the TTS when a cell is clicked
+  function speakText(text) {
+      const speechSynthesis = window.speechSynthesis;
+      const utterance = new SpeechSynthesisUtterance();
+      utterance.text = text;
+      utterance.lang = "el-GR"; // Set the language to Greek (Greece)
+      speechSynthesis.speak(utterance);
+      utterance.rate = 0.8;
+  }
+
+  // Map of Greek words to their IPA pronunciations
+  const greekPronunciations = {
+      "μηδέν": "[ˈmi.ðe̞n]",
+      "ΜΗΔΈΝ": "[ˈmi.ðe̞n]",
+      // "Σειμπε": "[ˈsi.mpe̞]",
+      // Add more Greek words and their IPA pronunciations as needed...
+  };
+
+  const tableCells = document.querySelectorAll("#Proper-Nouns td");
+
+  // Add click event listeners to each cell
+  tableCells.forEach((cell) => {
+      cell.addEventListener("click", () => {
+          const cellText = cell.textContent.trim();
+          const cellTextInIPA = greekPronunciations[cellText] || cellText;
+          speakText(cellTextInIPA);
+      });
+  });
+</script>
+
+</body>
+
+</html>
