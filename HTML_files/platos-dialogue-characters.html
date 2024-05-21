@@ -4,7 +4,15 @@
 <head>
 	<link rel="stylesheet" type="text/css" href="../../Css_files/style.css">
 	<title>Famous proper names</title>
-
+	<style>
+		/* Optional: Add some basic styling for the input field */
+		#searchInput {
+			margin-bottom: 10px;
+			padding: 5px;
+			font-size: 16px;
+			width: 100%;
+		}
+	</style>
 </head>
 <body>
 
@@ -21,10 +29,12 @@
 ΛΙΠΑΡΑ
 ... ΚΟΡΕΣΜΕΝΑ
 ΥΔΑΤΑΝΘΡΑΚΕΣ
---- ΕΚ ΤΩΝ ΟΠΟΩΝ ΣΑΚΧΑΡΑ
+--- ΕΚ ΤΩΝ ΟΠΟΙΩΝ ΣΑΚΧΑΡΑ
 ΠΡΩΤΕΙΝΕΣ
 ΑΛΑΤΙ
 ''' -->
+
+<input type="text" id="searchInput" onkeyup="filterTable()" placeholder="Search for names..">
 
 <table id="Proper-Nouns">
   <tr>
@@ -36,90 +46,93 @@
     <td>The Republic</td>
     <td>Sokrates</td>   <!-- # td stands for table data -->
     <td>Σωκράτης</td>
-    </tr>
-    <tr>
-      <td>The Republic</td>
+  </tr>
+  <tr>
+    <td>The Republic</td>
     <td>Cephalus</td>
     <td>Κέφαλος</td>
-    </tr>
-    <tr>
-      <td>The Republic</td>
+  </tr>
+  <tr>
+    <td>The Republic</td>
     <td>Thrasymachus</td>
     <td>Θρασύμαχος</td>
-    </tr>
-    <tr>
-      <td>The Republic, Phaedo</td>
+  </tr>
+  <tr>
+    <td>The Republic, Phaedo</td>
     <td>Glaucon</td>
     <td>Γλαύκων</td>
-    </tr>
-    <tr>
-      <td>The Republic, Phaedo</td>
+  </tr>
+  <tr>
+    <td>The Republic, Phaedo</td>
     <td>Adeimantus</td>
     <td>Αδείμαντος</td>
-    </tr>
-    <tr>
-      <td>The Republic</td>
+  </tr>
+  <tr>
+    <td>The Republic</td>
     <td>Nicias</td>
     <td>Νικίας</td>
-    </tr>
-    <tr>
-      <td>The Republic</td>
+  </tr>
+  <tr>
+    <td>The Republic</td>
     <td>Clitiphon</td>
     <td>Κλειτίφων</td>
-    </tr>
-    <tr>
-      <td>The Republic</td>
+  </tr>
+  <tr>
+    <td>The Republic</td>
     <td>Polemarchus</td>
     <td>Πολέμαρχος</td>
-    </tr>
-    <tr>
-      <td>The Republic</td>
+  </tr>
+  <tr>
+    <td>The Republic</td>
     <td>Protagoras</td>
     <td>Πρωταγόρας</td>
-    </tr>
-    <tr>
-      <td>The Republic</td>
+  </tr>
+  <tr>
+    <td>The Republic</td>
     <td>Lysias</td>
     <td>Λυσίας</td>
-    </tr>
+  </tr>
+  <tr>
     <td>Gorgias</td>
     <td>Polus</td>
     <td>Πῶλος</td>
-    </tr>
+  </tr>
+  <tr>
     <td>Gorgias</td>
     <td>Callicles</td>
     <td>Καλλικλῆς</td>
-    </tr>
+  </tr>
+  <tr>
     <td>Gorgias</td>
     <td>Gorgias</td>
     <td>Γοργίας</td>
-    </tr>
+  </tr>
+  <tr>
     <td>Phaedo</td>
     <td>Phaedo</td>
     <td>Φαίδων</td>
-    </tr>
+  </tr>
+  <tr>
     <td>Phaedo</td>
     <td>Cebes</td>
     <td>Κέβης</td>
-    </tr>
+  </tr>
+  <tr>
     <td>Phaedo</td>
     <td>Simias</td>
     <td>Σιμίας</td>
-    </tr>
+  </tr>
+  <tr>
     <td>Phaedo</td>
     <td>Xanthippe</td>
     <td>Ξανθίππη</td>
-    </tr>
+  </tr>
+  <tr>
     <td>Phaedo</td>
     <td>Glaucon</td>
     <td>Γλαύκων</td>
-    </tr>
-
-
-
-
+  </tr>
 </table>
-
 
 <script>
   // Function to handle the TTS when a cell is clicked
@@ -150,8 +163,31 @@
           speakText(cellTextInIPA);
       });
   });
+
+  // Function to filter the table
+  function filterTable() {
+      const input = document.getElementById("searchInput");
+      const filter = input.value.toLowerCase();
+      const table = document.getElementById("Proper-Nouns");
+      const tr = table.getElementsByTagName("tr");
+
+      for (let i = 1; i < tr.length; i++) {
+          const tdGreek = tr[i].getElementsByTagName("td")[0];
+          const tdEnglish = tr[i].getElementsByTagName("td")[1];
+          const tdBook = tr[i].getElementsByTagName("td")[2];
+          if (tdGreek || tdEnglish || tdBook) {
+              const txtValueGreek = tdGreek.textContent || tdGreek.innerText;
+              const txtValueEnglish = tdEnglish.textContent || tdEnglish.innerText;
+              const txtValueBook = tdBook.textContent || tdBook.innerText;
+              if (txtValueGreek.toLowerCase().indexOf(filter) > -1 || txtValueEnglish.toLowerCase().indexOf(filter) > -1 || txtValueBook.toLowerCase().indexOf(filter) > -1) {
+                  tr[i].style.display = "";
+              } else {
+                  tr[i].style.display = "none";
+              }
+          }
+      }
+  }
 </script>
 
 </body>
-
 </html>
