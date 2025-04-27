@@ -175,8 +175,17 @@ function draw(e) {
     ctx.strokeStyle = 'black';
 
     var rect = canvas.getBoundingClientRect();
-    var x = e.clientX - rect.left;
-    var y = e.clientY - rect.top;
+    var x, y;
+
+    // Handle both mouse and touch events
+    if (e.type.includes('touch')) {
+        e.preventDefault(); // Prevent scrolling while drawing
+        x = e.touches[0].clientX - rect.left;
+        y = e.touches[0].clientY - rect.top;
+    } else {
+        x = e.clientX - rect.left;
+        y = e.clientY - rect.top;
+    }
 
     ctx.lineTo(x, y);
     ctx.stroke();
@@ -188,6 +197,17 @@ function clearCanvas() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 }
 
+// Mouse events
 canvas.addEventListener('mousedown', startDraw);
 canvas.addEventListener('mouseup', endDraw);
 canvas.addEventListener('mousemove', draw);
+
+// Touch events
+canvas.addEventListener('touchstart', startDraw);
+canvas.addEventListener('touchend', endDraw);
+canvas.addEventListener('touchmove', draw);
+
+// Prevent scrolling when touching the canvas
+canvas.addEventListener('touchmove', function(e) {
+    e.preventDefault();
+}, { passive: false });
