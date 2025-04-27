@@ -11,6 +11,30 @@
             cursor: pointer;
             font-weight: bold;
         }
+        
+        /* Style for audio controls */
+        audio {
+            width: 40px;
+            height: 40px;
+        }
+        
+        audio::-webkit-media-controls-panel {
+            display: none !important;
+        }
+        
+        audio::-webkit-media-controls-play-button {
+            display: block !important;
+            width: 40px;
+            height: 40px;
+        }
+        
+        audio::-webkit-media-controls-current-time-display,
+        audio::-webkit-media-controls-time-remaining-display,
+        audio::-webkit-media-controls-timeline,
+        audio::-webkit-media-controls-volume-slider,
+        audio::-webkit-media-controls-mute-button {
+            display: none !important;
+        }
     </style>
 </head>
 <body>
@@ -37,7 +61,7 @@
     </tr>
 
     <tr>
-        <td class="greek-letter">αι <br> (άλφα + ιώτα)</td>
+        <td class="greek-letter">αι/ΑΙ <br> (άλφα + ιώτα)</td>
 		<td><u>αί</u>μα </td>
         <td>like e in bet</td>
         <td>
@@ -48,7 +72,7 @@
         </td>
     </tr>
 	<tr>
-		<td class="greek-letter">οι <br> (όμικρον + ιώτα)</td>
+		<td class="greek-letter">οι/ΟΙ <br> (όμικρον + ιώτα)</td>
 		<td><u>οί</u>κογένεια</td>
 		<td>like ee in feet</td>
 		<td>
@@ -59,7 +83,7 @@
 		</td>
 	</tr>
 	<tr>
-		<td class="greek-letter">υι <br> (ύψιλον + ιώτα)</td>
+		<td class="greek-letter">υι/ΥΙ <br> (ύψιλον + ιώτα)</td>
 		<td><u>υι</u>ός</td>
 		<td>like ee in feet</td>
 		<td>
@@ -70,7 +94,7 @@
 		</td>
 	</tr>
     <tr>
-        <td class="greek-letter">ει <br> (έψιλον + ιώτα)</td>
+        <td class="greek-letter">ει/ΕΙ <br> (έψιλον + ιώτα)</td>
 		<td><u>ει</u>μαι</td>
 		<td>like ee in feet</td>
         <td>
@@ -81,7 +105,7 @@
         </td>
     </tr>
     <tr>
-        <td class="greek-letter">ου <br> (όμικρον+ύψιλον)</td>
+        <td class="greek-letter">ου/ΟΥ <br> (όμικρον+ύψιλον)</td>
         <td><u>ου</u>ρανός</td>
 		<td>like ou in Lou</td>
         <td>
@@ -92,7 +116,7 @@
         </td>
     </tr>
     <tr>
-		<td class="greek-letter">αυ <br> (άλφα + ύψιλον)</td>
+		<td class="greek-letter">αυ/ΑΥ <br> (άλφα + ύψιλον)</td>
 		<td><u>αυ</u>τί</td>
 		<td>like af in "after" - αυτί, or like av in "avocado" - αυγό</td>
 		<td>
@@ -104,7 +128,7 @@
 	</tr>
 
     <tr>
-        <td class="greek-letter">ευ <br> (έψιλον + ύψιλον)</td>
+        <td class="greek-letter">ευ/ΕΥ <br> (έψιλον + ύψιλον)</td>
         <td><u>ευ</u>χή</td>
 		<td>like ef in "cleff"; like ev in "evolution"</td>
         <td>
@@ -127,7 +151,7 @@
     </tr>
 
     <tr>
-        <td class="greek-letter">μπ</td>
+        <td class="greek-letter">μπ/ΜΠ</td>
         <td><u>μπ</u>ανάνας</td>
         <td>
             <audio controls>
@@ -137,7 +161,7 @@
         </td>
     </tr>
     <tr>
-        <td class="greek-letter">ντ</td>
+        <td class="greek-letter">ντ/ΝΤ</td>
         <td><u>ντ</u>ύνω</td>
         <td>
             <audio controls>
@@ -147,7 +171,7 @@
         </td>
     </tr>
     <tr>
-        <td class="greek-letter">γκ</td>
+        <td class="greek-letter">γκ/ΓΚ</td>
         <td><u>άγ</u>κυρα</td>
         <td>
             <audio controls>
@@ -157,7 +181,7 @@
         </td>
     </tr>
     <tr>
-        <td class="greek-letter">γγ</td>
+        <td class="greek-letter">γγ/ΓΓ</td>
         <td>Ευά<u>γγ</u>ελος</td>
         <td>
             <audio controls>
@@ -167,7 +191,7 @@
         </td>
     </tr>
     <tr>
-        <td class="greek-letter">τσ</td>
+        <td class="greek-letter">τσ/ΤΣ</td>
         <td><u>τσ</u>έπη</td>	
         <td>
             <audio controls>
@@ -177,7 +201,7 @@
         </td>
     </tr>
     <tr>
-        <td class="greek-letter">τζ</td>
+        <td class="greek-letter">τζ/ΤΖ</td>
         <td><u>τζ</u>άμι</td>	
         <td>
             <audio controls>
