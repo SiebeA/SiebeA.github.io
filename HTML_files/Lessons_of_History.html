@@ -4,7 +4,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
-<title>The Lessons of History — EN/ES Study Edition · Dark · TTS · Subjunctive</title>
+<title>The Lessons of History — EN/ES · Dark · Keyless Dalia TTS</title>
 <style>
 :root {
   --bg:#0f1115;
@@ -239,9 +239,47 @@ button:hover { background:#2a3039 !important; }
   border-radius:3px;
   padding:1px 5px;
 }
-</style>
-<script>
 
+
+/* Keyless Edge Online TTS */
+.edge-online-settings {
+  margin:0 0 14px;
+  padding:12px;
+  background:#101319;
+  border:1px solid #2f3540;
+  border-radius:8px;
+}
+.edge-online-title {
+  font:700 .78rem/1.3 Arial,sans-serif;
+  color:#c6cbd4;
+  text-transform:uppercase;
+  letter-spacing:.05em;
+  margin-bottom:9px;
+}
+.edge-online-grid {
+  display:grid;
+  grid-template-columns:minmax(240px,.8fr) 1.2fr;
+  gap:12px;
+  align-items:end;
+}
+.edge-online-info {
+  font:.82rem/1.45 Arial,sans-serif;
+  color:var(--muted);
+  padding-bottom:4px;
+}
+.engine-badge {
+  display:inline-block;
+  padding:2px 7px;
+  border-radius:999px;
+  border:1px solid #35557a;
+  color:#9bc2f5;
+  font:.75rem Arial,sans-serif;
+}
+@media (max-width:760px) {
+  .edge-online-grid { grid-template-columns:1fr; }
+}
+</style>
+<script crossorigin="anonymous" src="https://unpkg.com/@andresaya/edge-tts@1.8.0/dist/browser/edge-tts.umd.min.js"></script><script>
 function toggleSubjunctive() {
   document.body.classList.toggle('hide-subjunctive');
   const btn = document.getElementById('subj-toggle');
@@ -258,66 +296,53 @@ function toggleLang(lang) {
 let voices = [];
 let currentPair = null;
 let sequenceStop = false;
+let currentAudio = null;
+let currentAudioUrl = null;
+let edgeTtsInstance = null;
+
+// Cache only the lines actually played during this session.
+const edgeAudioCache = new Map();
 
 const STORAGE_KEYS = {
   enVoice: 'loh_tts_en_voice',
   esVoice: 'loh_tts_es_voice',
-  rate: 'loh_tts_rate'
+  rate: 'loh_tts_rate',
+  engine: 'loh_tts_engine_nokey'
 };
 
 function getSaved(key) {
   try { return localStorage.getItem(key); } catch (_) { return null; }
 }
-
 function saveValue(key, value) {
   try { localStorage.setItem(key, value); } catch (_) {}
 }
 
 function isLikelyNaturalVoice(v) {
   const s = ((v.name || '') + ' ' + (v.voiceURI || '')).toLowerCase();
-  return (
-    s.includes('natural') ||
-    s.includes('neural') ||
-    s.includes('online')
-  );
+  return s.includes('natural') || s.includes('neural') || s.includes('online');
 }
 
 function voiceScore(v, lang) {
   const name = ((v.name || '') + ' ' + (v.voiceURI || '')).toLowerCase();
   let score = 0;
-
-  // Hard preference for the study defaults.
   if (lang === 'es' && name.includes('dalia')) score += 1000;
   if (lang === 'en' && name.includes('christopher')) score += 1000;
-
-  // Strongly prefer Microsoft's modern voices in Edge.
   if (name.includes('microsoft')) score += 80;
   if (name.includes('natural')) score += 100;
   if (name.includes('neural')) score += 95;
   if (name.includes('online')) score += 50;
-
-  // Prefer browser/cloud voices when exposed as such.
   if (v.localService === false) score += 20;
 
-  // Language/locale preference.
   const vl = (v.lang || '').toLowerCase();
   if (lang === 'en') {
     if (vl === 'en-us') score += 18;
     else if (vl === 'en-gb') score += 16;
     else if (vl.startsWith('en-')) score += 12;
   } else {
-    if (vl === 'es-es') score += 18;
-    else if (vl === 'es-mx') score += 17;
+    if (vl === 'es-mx') score += 18;
+    else if (vl === 'es-es') score += 16;
     else if (vl.startsWith('es-')) score += 12;
   }
-
-  // Slightly de-prioritize voices that are often legacy/system voices.
-  if (
-    name.includes('desktop') ||
-    name.includes('compact') ||
-    name.includes('legacy')
-  ) score -= 30;
-
   return score;
 }
 
@@ -325,16 +350,15 @@ function bestVoiceFor(lang) {
   const prefix = lang === 'es' ? /^es(-|_)/i : /^en(-|_)/i;
   const candidates = voices.filter(v => prefix.test(v.lang || ''));
   if (!candidates.length) return null;
-
   return candidates
-    .map(v => ({ v, score: voiceScore(v, lang) }))
-    .sort((a, b) => b.score - a.score || a.v.name.localeCompare(b.v.name))[0].v;
+    .map(v => ({v,score:voiceScore(v,lang)}))
+    .sort((a,b) => b.score-a.score || a.v.name.localeCompare(b.v.name))[0].v;
 }
 
 function refreshVoices() {
   voices = window.speechSynthesis ? speechSynthesis.getVoices() : [];
-  fillVoiceSelect('voice-en', 'en', STORAGE_KEYS.enVoice);
-  fillVoiceSelect('voice-es', 'es', STORAGE_KEYS.esVoice);
+  fillVoiceSelect('voice-en','en',STORAGE_KEYS.enVoice);
+  fillVoiceSelect('voice-es','es',STORAGE_KEYS.esVoice);
 }
 
 function fillVoiceSelect(id, lang, storageKey) {
@@ -344,7 +368,6 @@ function fillVoiceSelect(id, lang, storageKey) {
   const prefix = lang === 'es' ? /^es(-|_)/i : /^en(-|_)/i;
   const matches = voices.filter(v => prefix.test(v.lang || ''));
   const saved = getSaved(storageKey);
-
   sel.innerHTML = '';
 
   if (!matches.length) {
@@ -355,36 +378,27 @@ function fillVoiceSelect(id, lang, storageKey) {
     return;
   }
 
-  const sorted = matches
-    .map(v => ({v, score: voiceScore(v, lang)}))
-    .sort((a,b) => b.score - a.score || a.v.name.localeCompare(b.v.name));
+  matches
+    .map(v => ({v,score:voiceScore(v,lang)}))
+    .sort((a,b) => b.score-a.score || a.v.name.localeCompare(b.v.name))
+    .forEach(({v}) => {
+      const o = document.createElement('option');
+      o.value = v.voiceURI || v.name;
+      const tag = isLikelyNaturalVoice(v) ? ' ★ Natural' : '';
+      o.textContent = `${v.name}${tag} — ${v.lang}`;
+      sel.appendChild(o);
+    });
 
-  sorted.forEach(({v}) => {
-    const o = document.createElement('option');
-    o.value = v.voiceURI || v.name;
-    const naturalTag = isLikelyNaturalVoice(v) ? ' ★ Natural' : '';
-    o.textContent = `${v.name}${naturalTag} — ${v.lang}`;
-    sel.appendChild(o);
-  });
-
-  const savedExists = saved && [...sel.options].some(o => o.value === saved);
-
-  if (savedExists) {
+  if (saved && [...sel.options].some(o => o.value === saved)) {
     sel.value = saved;
   } else {
     const best = bestVoiceFor(lang);
-    if (best) {
-      sel.value = best.voiceURI || best.name;
-      saveValue(storageKey, sel.value);
-    } else {
-      sel.selectedIndex = 0;
-    }
+    if (best) sel.value = best.voiceURI || best.name;
   }
 }
 
 function getSelectedVoice(lang) {
-  const id = lang === 'es' ? 'voice-es' : 'voice-en';
-  const sel = document.getElementById(id);
+  const sel = document.getElementById(lang === 'es' ? 'voice-es' : 'voice-en');
   if (!sel || !sel.value) return null;
   return voices.find(v => (v.voiceURI || v.name) === sel.value) || null;
 }
@@ -394,13 +408,13 @@ function getRate() {
   return el ? parseFloat(el.value || '0.9') : 0.9;
 }
 
-function restoreRate() {
-  const el = document.getElementById('tts-rate');
-  if (!el) return;
-  const saved = getSaved(STORAGE_KEYS.rate);
-  if (saved && [...el.options].some(o => o.value === saved)) {
-    el.value = saved;
-  }
+function ratePercent() {
+  const pct = Math.round((getRate() - 1) * 100);
+  return (pct >= 0 ? '+' : '') + pct + '%';
+}
+
+function currentEngine() {
+  return document.getElementById('tts-engine')?.value || 'edge-online';
 }
 
 function setStatus(msg) {
@@ -413,16 +427,114 @@ function clearPlaying() {
   currentPair = null;
 }
 
+function updateEngineUI() {
+  const online = currentEngine() === 'edge-online';
+  document.getElementById('voice-en')?.toggleAttribute('disabled', online);
+  document.getElementById('voice-es')?.toggleAttribute('disabled', online);
+
+  if (online) {
+    setStatus('Edge Online — exact Dalia / Christopher · no key');
+  } else {
+    setStatus('Browser voice mode');
+  }
+}
+
 function stopSpeech() {
   sequenceStop = true;
-  if (window.speechSynthesis) speechSynthesis.cancel();
+  try { if (window.speechSynthesis) speechSynthesis.cancel(); } catch (_) {}
+  try {
+    if (currentAudio) {
+      currentAudio.pause();
+      currentAudio.currentTime = 0;
+    }
+  } catch (_) {}
+  currentAudio = null;
+  // Don't revoke cached object URLs here; they may be reused.
   clearPlaying();
   setStatus('Stopped');
 }
 
-function speakText(text, lang, pair, onDone) {
+function edgeVoice(lang) {
+  return lang === 'es' ? 'es-MX-DaliaNeural' : 'en-US-ChristopherNeural';
+}
+
+async function getEdgeAudioUrl(text, lang) {
+  const voice = edgeVoice(lang);
+  const rate = ratePercent();
+  const cacheKey = `${voice}|${rate}|${text}`;
+  if (edgeAudioCache.has(cacheKey)) return edgeAudioCache.get(cacheKey);
+
+  if (typeof window.EdgeTTS !== 'function' && typeof EdgeTTS !== 'function') {
+    throw new Error('Edge Online library did not load. Check your internet connection.');
+  }
+
+  const TTSClass = window.EdgeTTS || EdgeTTS;
+  const tts = new TTSClass();
+  edgeTtsInstance = tts;
+
+  await tts.synthesize(text, voice, {
+    rate,
+    volume: '+0%',
+    pitch: '+0Hz',
+    outputFormat: 'audio-24khz-96kbitrate-mono-mp3'
+  });
+
+  const audioData = tts.getAudioData();
+  if (!audioData || !audioData.length) {
+    throw new Error('No audio was returned by Edge Online TTS.');
+  }
+
+  const blob = new Blob([audioData], {type:'audio/mpeg'});
+  const url = URL.createObjectURL(blob);
+  edgeAudioCache.set(cacheKey, url);
+  return url;
+}
+
+async function speakTextEdgeOnline(text, lang, pair, onDone) {
+  sequenceStop = false;
+  clearPlaying();
+
+  if (pair) {
+    currentPair = pair;
+    pair.classList.add('playing');
+  }
+
+  const voiceName = lang === 'es' ? 'Dalia' : 'Christopher';
+  setStatus(`Loading ${voiceName}…`);
+
+  try {
+    const url = await getEdgeAudioUrl(text, lang);
+    if (sequenceStop) return;
+
+    currentAudio = new Audio(url);
+    currentAudio.preload = 'auto';
+
+    currentAudio.onplay = () =>
+      setStatus(`Playing ${lang.toUpperCase()} — ${voiceName} (Edge Online)`);
+
+    currentAudio.onended = () => {
+      if (pair) pair.classList.remove('playing');
+      currentAudio = null;
+      if (!sequenceStop && typeof onDone === 'function') onDone();
+      else if (!onDone) setStatus('Ready');
+    };
+
+    currentAudio.onerror = () => {
+      if (pair) pair.classList.remove('playing');
+      setStatus('Audio playback failed.');
+    };
+
+    await currentAudio.play();
+  } catch (err) {
+    if (pair) pair.classList.remove('playing');
+    const msg = (err && err.message) ? err.message : String(err);
+    setStatus('Edge Online error: ' + msg);
+  }
+}
+
+function speakTextBrowser(text, lang, pair, onDone) {
   if (!window.speechSynthesis || !window.SpeechSynthesisUtterance) {
-    setStatus('Text-to-speech is not supported in this browser.');
+    setStatus('Browser TTS is not supported here.');
     return;
   }
 
@@ -436,7 +548,7 @@ function speakText(text, lang, pair, onDone) {
   }
 
   const u = new SpeechSynthesisUtterance(text);
-  u.lang = lang === 'es' ? 'es-ES' : 'en-US';
+  u.lang = lang === 'es' ? 'es-MX' : 'en-US';
   u.rate = getRate();
 
   const voice = getSelectedVoice(lang);
@@ -445,10 +557,8 @@ function speakText(text, lang, pair, onDone) {
     u.lang = voice.lang || u.lang;
   }
 
-  u.onstart = () => {
-    const label = voice ? voice.name : 'browser default';
-    setStatus(`Playing ${lang.toUpperCase()} — ${label}`);
-  };
+  u.onstart = () =>
+    setStatus(`Playing ${lang.toUpperCase()} — ${voice ? voice.name : 'browser default'}`);
 
   u.onend = () => {
     if (pair) pair.classList.remove('playing');
@@ -456,12 +566,23 @@ function speakText(text, lang, pair, onDone) {
     else if (!onDone) setStatus('Ready');
   };
 
-  u.onerror = (e) => {
+  u.onerror = e => {
     if (pair) pair.classList.remove('playing');
-    setStatus('Playback error: ' + (e.error || 'unknown'));
+    setStatus('Browser TTS error: ' + (e.error || 'unknown'));
   };
 
   speechSynthesis.speak(u);
+}
+
+function speakText(text, lang, pair, onDone) {
+  stopSpeech();
+  sequenceStop = false;
+
+  if (currentEngine() === 'edge-online') {
+    speakTextEdgeOnline(text, lang, pair, onDone);
+  } else {
+    speakTextBrowser(text, lang, pair, onDone);
+  }
 }
 
 function speakLine(btn) {
@@ -477,6 +598,8 @@ function speakPair(btn) {
   const en = pair.querySelector('.en .txt')?.textContent.trim();
   const es = pair.querySelector('.es .txt')?.textContent.trim();
   if (!en && !es) return;
+
+  sequenceStop = false;
 
   const playSpanish = () => {
     if (sequenceStop || !es) {
@@ -524,33 +647,57 @@ function addSpeakButtons() {
   });
 }
 
+function restoreSettings() {
+  const rate = document.getElementById('tts-rate');
+  const savedRate = getSaved(STORAGE_KEYS.rate);
+  if (rate && savedRate && [...rate.options].some(o => o.value === savedRate)) {
+    rate.value = savedRate;
+  }
+
+  const engine = document.getElementById('tts-engine');
+  const savedEngine = getSaved(STORAGE_KEYS.engine);
+  if (engine) {
+    if (savedEngine && [...engine.options].some(o => o.value === savedEngine)) {
+      engine.value = savedEngine;
+    } else {
+      // Keyless Edge Online is the preferred mode on Android Edge.
+      engine.value = /Android/i.test(navigator.userAgent) && /EdgA|Edg/i.test(navigator.userAgent)
+        ? 'edge-online'
+        : 'browser';
+    }
+  }
+}
+
 function attachPreferenceListeners() {
   const en = document.getElementById('voice-en');
   const es = document.getElementById('voice-es');
   const rate = document.getElementById('tts-rate');
+  const engine = document.getElementById('tts-engine');
 
-  if (en) en.addEventListener('change', () => saveValue(STORAGE_KEYS.enVoice, en.value));
-  if (es) es.addEventListener('change', () => saveValue(STORAGE_KEYS.esVoice, es.value));
-  if (rate) rate.addEventListener('change', () => saveValue(STORAGE_KEYS.rate, rate.value));
+  if (en) en.addEventListener('change', () => saveValue(STORAGE_KEYS.enVoice,en.value));
+  if (es) es.addEventListener('change', () => saveValue(STORAGE_KEYS.esVoice,es.value));
+  if (rate) rate.addEventListener('change', () => saveValue(STORAGE_KEYS.rate,rate.value));
+  if (engine) engine.addEventListener('change', () => {
+    saveValue(STORAGE_KEYS.engine,engine.value);
+    updateEngineUI();
+  });
 }
 
 document.addEventListener('DOMContentLoaded', () => {
   addSpeakButtons();
-  restoreRate();
+  restoreSettings();
   attachPreferenceListeners();
   refreshVoices();
+  updateEngineUI();
 
   if (window.speechSynthesis) {
     speechSynthesis.onvoiceschanged = refreshVoices;
-    setTimeout(refreshVoices, 300);
-    setTimeout(refreshVoices, 1200);
+    setTimeout(refreshVoices,300);
+    setTimeout(refreshVoices,1200);
+  }
 
-    const browserHint = /Edg\//.test(navigator.userAgent)
-      ? 'Edge detected — Microsoft Natural voices will be prioritized.'
-      : 'For the most natural playback, open this file in Microsoft Edge.';
-    setStatus(browserHint);
-  } else {
-    setStatus('TTS is not available in this browser.');
+  if (/Android/i.test(navigator.userAgent) && /EdgA|Edg/i.test(navigator.userAgent)) {
+    setStatus('Android Edge detected — keyless Dalia / Christopher ready.');
   }
 });
 </script>
@@ -559,13 +706,30 @@ document.addEventListener('DOMContentLoaded', () => {
 <main>
 <header>
 <h1>The Lessons of History / Lecciones de la historia</h1>
-<div class="subtitle">English → Spanish, sentence by sentence · Dark edition · Natural TTS · Spanish subjunctive highlighted.</div>
+<div class="subtitle">English → Spanish, sentence by sentence · Dark edition · Spanish subjunctive highlighted · Keyless Dalia/Christopher on Android Edge.</div>
 <p>The text is aligned by meaning and order. Where the official Spanish translation merges or splits an English sentence, the corresponding sentences are kept together in one pair.</p>
 <div class="controls">
 <button onclick="toggleLang('en')">Show / hide English</button>
 <button onclick="toggleLang('es')">Show / hide Spanish</button>
 <button id="subj-toggle" onclick="toggleSubjunctive()" type="button">Subjunctive: ON</button></div><div class="grammar-legend"><span class="grammar-chip">subjunctive</span> Spanish subjunctive · hover for tense</div>
 <div class="tts-panel">
+
+<div class="edge-online-settings">
+<div class="edge-online-title">Audio engine</div>
+<div class="edge-online-grid">
+<div class="tts-field">
+<label for="tts-engine">Engine</label>
+<select id="tts-engine">
+<option value="edge-online">Edge Online — Dalia / Christopher · no key</option>
+<option value="browser">Browser voices</option>
+</select>
+</div>
+<div class="edge-online-info" id="edge-online-info">
+          Uses Microsoft Edge's online Read Aloud service through an unofficial open-source client.
+          Internet required. No Azure Speech key required.
+        </div>
+</div>
+</div>
 <div class="tts-grid">
 <div class="tts-field">
 <label for="voice-en">English voice</label>
@@ -588,7 +752,7 @@ document.addEventListener('DOMContentLoaded', () => {
 </div>
 <button onclick="stopSpeech()" type="button">■ Stop</button>
 </div>
-<div class="tts-actions">
+<div class="tts-actions"><span class="engine-badge">Android Edge: Dalia without Azure key</span>
 <span><b>★</b> Natural voices are prioritized automatically</span>
 <span>Voice and speed choices are remembered on this device</span>
 <span>Default Spanish: Microsoft Dalia Online (Natural)</span>
