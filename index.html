@@ -1,40 +1,54 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Siebe Albers - Greek Language Learning Resources</title>
-    <link rel="stylesheet" href="Css_files/index.css">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Greek and Spanish language-learning resources.">
+  <title>Siebe Languages</title>
+  <link rel="stylesheet" href="Css_files/global.css">
 </head>
 <body>
-    <header>
-        <h1>Beta: 2025, April version</h1>
-        
-        <ul class="intro-list">
-            <li>The Greek alphabet is different from the Latin alphabet</li>
-            <li>Used by e.g. the Germanic (English, German) or Romance languages (Spanish, French)</li>
-            <li>The additional step of learning a new Alphabet is often a hurdle for language learners</li>
-            <li>The resources on this website are exactly configured for the purpose of getting from a 0 to A1 level</li>
-        </ul>
+<header class="site-header">
+  <div class="site-header__inner">
+    <a class="brand" href="index.html">Siebe Languages</a>
+    <nav class="main-nav" aria-label="Main navigation">
+      <a href="index.html" aria-current="page">Home</a>
+      <a href="greek/index.html">Greek</a>
+      <a href="spanish/index.html">Español</a>
+    </nav>
+  </div>
+</header>
 
-        <nav>
-            <ul>
-                <li><a href="HTML_files/Lessons_of_History.html">lessons of history in Spanish</a></li>
-                <li><a href="HTML_files/Animal_Farm_Rebelion.html">Animal farm ES EN line by line</a></li>
-                <li><a href="HTML_files/Rebelion_en_la_granja">Animal Farm</a></li>
-                <li><a href="HTML_files/Meditations.html">Meditation</a></li>
-                <li><a href="HTML_files/greek-alphabet.html">Greek alphabet with examples & pronunciation</a></li>
-                <li><a href="HTML_files/double-letters.html">Greek double letter (Dipthongs) with examples & sounds</a></li>
-                <li><a href="HTML_files/platos-dialogue-characters.html">The Characters in the Dialogues of Plato (with Greek pronunciation)</a></li>
-                <li><a href="HTML_files/greek_game.html">Greek alphabet Quiz for practice with sounds Example-words</a></li>
-                <li><a href="HTML_files/proper-nouns.html">Famous proper nouns with TTS capability to test your Greek reading ability</a></li>
-                <li><a href="Data_sourcing_files/Pdf_files/testament-greek-en.pdf">Greek-English New Testament</a></li>
-            </ul>
-        </nav>
+<main class="page">
+  <section class="hero">
+    <span class="kicker">Language learning</span>
+    <h1>Choose a language and start learning.</h1>
+    <p>A focused collection of reading, pronunciation and practice tools for Greek and Spanish.</p>
+  </section>
 
-        <div class="note">
-            NOTE: Install Greek language keyboard on your PC; for Windows: "Time & Language > Add Language" (also, checkmark the TTS capacity for the proper nouns page)
-        </div>
-    </header>
+  <section class="section">
+    <div class="choice-grid">
+      <a class="lang-card greek" href="greek/index.html">
+        <div class="card-icon">ΕΛ</div>
+        <h2>Learn Greek</h2>
+        <p>Alphabet, sound combinations, quiz practice, names, reading and pronunciation.</p>
+        <div class="card-meta"><span>Greek learning hub</span><span>Enter →</span></div>
+      </a>
+
+      <a class="lang-card spanish" href="spanish/index.html">
+        <div class="card-icon">ES</div>
+        <h2>Learn Spanish</h2>
+        <p>Parallel texts, Spanish-only reading, grammar-focused study and longer-form practice.</p>
+        <div class="card-meta"><span>Spanish learning hub</span><span>Enter →</span></div>
+      </a>
+    </div>
+  </section>
+
+  <aside class="note">
+    The site is intentionally split into two learning environments so Greek and Spanish can develop independently without mixing study modes.
+  </aside>
+</main>
+
+<footer>Siebe Languages · Personal language-learning resources</footer>
 </body>
 </html>
