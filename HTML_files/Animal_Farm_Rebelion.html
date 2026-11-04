@@ -207,6 +207,83 @@ button:hover { background:#2a3039 !important; }
 
 
 .txt{white-space:pre-line;} footer{margin:56px 0 20px;padding-top:18px;border-top:1px solid var(--rule);color:var(--muted);font:13px/1.55 Arial,sans-serif;}
+
+/* --- Spanish "se" learning layer --- */
+.se-token {
+  display:inline;
+  border-radius:3px;
+  padding:0 .04em;
+  cursor:pointer;
+  transition:background .15s ease, color .15s ease, border-color .15s ease;
+}
+.se-token:focus-visible {
+  outline:2px solid #8ab4f8;
+  outline-offset:2px;
+}
+.se-pronominal {
+  color:#ff6673 !important;
+  font-weight:700;
+  background:rgba(255,102,115,.10);
+  border-bottom:1px solid rgba(255,102,115,.62);
+}
+.se-other {
+  color:inherit;
+  border-bottom:1px dotted #aeb6c3;
+}
+.se-token:hover {
+  background:rgba(138,180,248,.12);
+}
+.se-legend {
+  margin:10px 0 2px;
+  padding:10px 12px;
+  border:1px solid #2f3540;
+  border-radius:8px;
+  background:#12151a;
+  color:#b8c0cc;
+  font:13px/1.45 Arial,sans-serif;
+}
+.se-legend strong { color:#e8e9ed; }
+.se-legend .se-pronominal,
+.se-legend .se-other { font-style:normal; }
+#se-popover {
+  position:fixed;
+  z-index:2000;
+  display:none;
+  width:min(360px,calc(100vw - 24px));
+  padding:14px 15px;
+  border:1px solid #3a414d;
+  border-radius:10px;
+  background:#20242c;
+  color:#e8e9ed;
+  box-shadow:0 16px 42px rgba(0,0,0,.42);
+  font:14px/1.45 Arial,sans-serif;
+}
+#se-popover.open { display:block; }
+#se-popover .se-popover-label {
+  margin-bottom:5px;
+  color:#ffb2ba;
+  font-weight:800;
+}
+#se-popover .se-popover-label.other { color:#9fc1ff; }
+#se-popover .se-popover-note {
+  margin-top:8px;
+  color:#aeb6c3;
+  font-size:12px;
+}
+@media (max-width:600px) {
+  #se-popover {
+    left:12px !important;
+    right:12px;
+    top:auto !important;
+    bottom:12px;
+    width:auto;
+  }
+}
+@media print {
+  .se-token { color:inherit !important; background:none !important; border:0 !important; }
+  .se-legend, #se-popover { display:none !important; }
+}
+
 </style>
 <script>
 function toggleLang(lang) {
@@ -512,6 +589,343 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 });
 </script>
+
+<script>
+/* Spanish "se" tagging.
+   Conservative by design: high-confidence pronominal/reflexive uses are red.
+   Other uses remain neutral and open a contextual grammar explanation. */
+(function () {
+  const PRONOMINAL_SIMPLE = new Set([
+    'quitó','fue','retirara','encontraba','encontraban','encontraran','encontraron','encontró',
+    'arrellanaron','situaron','situaban','echaron','dedicaron','anidaron','colocó','colocaban',
+    'libra','acostó','acostaron','llama','llamaba','llamaban','llamara',
+    'emborrachó','quedó','quedaba','quedaron','quedaran','quedarían',
+    'despertó','despertaron','abalanzaron','escabulló','escondía','acomodaron',
+    'lanzaban','lanzaron','revolcaban','detuvieron','detuvieran','detuvo',
+    'adaptaban','quejó','quejaba','presentaba','presentaban','presentó','limitaba',
+    'dirigían','ocupó','ocuparon','aprovechaban','incorporó','incorporaron',
+    'negó','negaba','negaban','interesó','olvidó','olvidaba','solidarizaron',
+    'odiaban','peleaban','atrevía','atrevían','posó','aproximaba','aproximaban',
+    'aproximaron','acercaba','acercaron','acercó','vengara','alegraron',
+    'congregaron','congregaran','mantenía','alistó','agruparon','agruparan',
+    'alarmaron','paró','paraba','pararon','alejó','alejaba','alejaban','alejaron',
+    'agolparon','adelantó','adelantaron','sintieron','sintió','reponía','repuso',
+    'jubilara','cansaba','hinchaban','arrastraron','arrastró','cercioraran',
+    'movía','movieron','movió','restablecería','suicidó','apoderó','refugiaron',
+    'acurrucaron','arremolinaron','atrevió','deslizó','encerraba','esforzara',
+    'inclinaba','molestaron','recostaron','regocijarían','reunían','reunieran',
+    'reunieron','reunirían','sentaban','sentó','coaligaron','conjuraron',
+    'dispersaban','divertía','expresaba','fió','inició','manifestó','preparaba',
+    'restablecería','sorprendieron','transformaron','volvieron','volvió',
+    'volvieron','extendió','extendía','acurrucaron','desató'
+  ]);
+
+  const PRONOMINAL_PARTICIPLES = new Set([
+    'puesto','vuelto','quedado','retirado','jubilado','ido','sentado','desanimado',
+    'repuesto','enriquecido','agenciado','suscrito','atrevido','acostumbrado',
+    'alarmado','reunido','acercado','alejado','detenido','levantado'
+  ]);
+
+  const PRONOMINAL_GERUNDS = new Set([
+    'poniendo','muriendo','admirando','preparando','alejando','acercando'
+  ]);
+
+  const IMPERSONAL_FORMS = new Set([
+    'trabajaba','decía','decían','dijo','sabía','supo','puede','podía','podían',
+    'trataba','llegó','oyó','oía','oyeron','anunció','esperaba','esperara',
+    'rumoreaba','creyó','suponía','comprendía','adivinaba'
+  ]);
+
+  function wordsAfter(text, end) {
+    return (text.slice(end).match(/[\p{L}ÁÉÍÓÚÜÑáéíóúüñ]+/gu) || [])
+      .slice(0, 5)
+      .map(w => w.toLowerCase());
+  }
+
+  function classifyStandaloneSe(text, start, end) {
+    const words = wordsAfter(text, end);
+    const first = words[0] || '';
+    const second = words[1] || '';
+    const third = words[2] || '';
+
+    if (['lo','la','los','las'].includes(first)) {
+      return {
+        kind:'other',
+        label:'Indirect-object se (le/les → se)',
+        explanation:'Here se replaces le or les before a direct-object pronoun such as lo, la, los or las. It is not reflexive.'
+      };
+    }
+
+    if (['me','te','nos','os','le','les'].includes(first)) {
+      return {
+        kind:'other',
+        label:'Se + dative pronoun',
+        explanation:'Here se appears together with an indirect-object pronoun. This is a dative/affected-participant construction rather than a simple pronominal verb.'
+      };
+    }
+
+    if (
+      (first === 'dieron' && ['cuenta','prisa'].includes(second)) ||
+      (first === 'dio' && ['cuenta','prisa'].includes(second)) ||
+      (first === 'haría' && second === 'cargo') ||
+      (first === 'hicieron' && second === 'presentes') ||
+      (first === 'pusieron' && second === 'de' && third === 'acuerdo') ||
+      (first === 'pusieran' && second === 'de' && third === 'acuerdo') ||
+      (first === 'puso' && second === 'en' && third === 'pie')
+    ) {
+      return {
+        kind:'pronominal',
+        label:'Pronominal / reflexive se',
+        explanation:'The pronoun belongs to a pronominal expression here; it is part of the verb phrase rather than a passive or impersonal marker.'
+      };
+    }
+
+    if (PRONOMINAL_SIMPLE.has(first)) {
+      return {
+        kind:'pronominal',
+        label:'Pronominal / reflexive se',
+        explanation:'The verb is used pronominally here. Se belongs to the verb or marks the subject as directly involved in its own action, movement or change of state.'
+      };
+    }
+
+    if (['había','habían','ha','han','hubiera','hubieran','hubo'].includes(first) &&
+        PRONOMINAL_PARTICIPLES.has(second)) {
+      return {
+        kind:'pronominal',
+        label:'Pronominal / reflexive se',
+        explanation:'This is a compound tense of a pronominal verb; se remains part of the verb construction.'
+      };
+    }
+
+    if (['estaba','estaban','está','están'].includes(first) &&
+        PRONOMINAL_GERUNDS.has(second)) {
+      return {
+        kind:'pronominal',
+        label:'Pronominal / reflexive se',
+        explanation:'This progressive form is being used pronominally; se is tied to the verb rather than functioning as a passive marker.'
+      };
+    }
+
+    if (first === 'ha' && second === 'caído') {
+      return {
+        kind:'pronominal',
+        label:'Pronominal / change-of-state se',
+        explanation:'Caerse is used here as a pronominal change-of-state verb: the subject undergoes the event.'
+      };
+    }
+
+    if (first === 'está' && second === 'poniendo') {
+      return {
+        kind:'pronominal',
+        label:'Pronominal / change-of-state se',
+        explanation:'Ponerse expresses a change of state. Se is part of the pronominal verb.'
+      };
+    }
+
+    if (IMPERSONAL_FORMS.has(first)) {
+      return {
+        kind:'other',
+        label:'Impersonal se',
+        explanation:'The sentence presents the action without naming a specific agent. Se is functioning impersonally, not as part of a pronominal verb.'
+      };
+    }
+
+    return {
+      kind:'other',
+      label:'Passive / impersonal se',
+      explanation:'This se presents an action or event without a named agent. Depending on agreement and sentence structure, Spanish grammar analyses these uses as passive-reflexive or impersonal se.'
+    };
+  }
+
+  function makeSeSpan(text, info) {
+    const span = document.createElement('span');
+    span.className = 'se-token ' + (info.kind === 'pronominal' ? 'se-pronominal' : 'se-other');
+    span.textContent = text;
+    span.tabIndex = 0;
+    span.setAttribute('role','button');
+    span.setAttribute('aria-label', info.label + ': ' + text);
+    span.dataset.seLabel = info.label;
+    span.dataset.seExplanation = info.explanation;
+    span.addEventListener('click', ev => {
+      ev.stopPropagation();
+      openSePopover(span);
+    });
+    span.addEventListener('keydown', ev => {
+      if (ev.key === 'Enter' || ev.key === ' ') {
+        ev.preventDefault();
+        openSePopover(span);
+      }
+    });
+    return span;
+  }
+
+  function annotateStandalone(el) {
+    const nodes = [];
+    const walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT);
+    let node;
+    while ((node = walker.nextNode())) nodes.push(node);
+
+    nodes.forEach(textNode => {
+      if (textNode.parentElement && textNode.parentElement.closest('.se-token')) return;
+      const text = textNode.nodeValue;
+      const re = /\bse\b/gi;
+      let match, last = 0;
+      const frag = document.createDocumentFragment();
+      let changed = false;
+
+      while ((match = re.exec(text))) {
+        changed = true;
+        if (match.index > last) frag.appendChild(document.createTextNode(text.slice(last, match.index)));
+        const info = classifyStandaloneSe(text, match.index, re.lastIndex);
+        frag.appendChild(makeSeSpan(match[0], info));
+        last = re.lastIndex;
+      }
+
+      if (changed) {
+        if (last < text.length) frag.appendChild(document.createTextNode(text.slice(last)));
+        textNode.replaceWith(frag);
+      }
+    });
+  }
+
+  function annotateEnclitic(el) {
+    const nodes = [];
+    const walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT);
+    let node;
+    while ((node = walker.nextNode())) {
+      if (!node.parentElement || !node.parentElement.closest('.se-token')) nodes.push(node);
+    }
+
+    const wordRe = /\b([\p{L}ÁÉÍÓÚÜÑáéíóúüñ]+?)(se)(lo|la|los|las)?\b/giu;
+
+    nodes.forEach(textNode => {
+      const text = textNode.nodeValue;
+      let match, last = 0, changed = false;
+      const frag = document.createDocumentFragment();
+
+      while ((match = wordRe.exec(text))) {
+        const stem = match[1];
+        const tail = match[3] || '';
+        const lowerStem = stem.toLowerCase();
+
+        const looksVerb =
+          /r$/u.test(lowerStem) ||
+          /(?:ando|iendo|ándo|iéndo)$/u.test(lowerStem);
+
+        if (!looksVerb) continue;
+
+        changed = true;
+        if (match.index > last) frag.appendChild(document.createTextNode(text.slice(last, match.index)));
+        frag.appendChild(document.createTextNode(stem));
+
+        const info = tail
+          ? {
+              kind:'other',
+              label:'Enclitic indirect-object se',
+              explanation:'Here se is attached to the verb and stands before lo/la/los/las. It replaces le/les and is not a reflexive marker.'
+            }
+          : {
+              kind:'pronominal',
+              label:'Pronominal / reflexive -se',
+              explanation:'Here -se is attached to an infinitive or gerund and forms part of a pronominal/reflexive verb construction.'
+            };
+
+        frag.appendChild(makeSeSpan(match[2], info));
+        if (tail) frag.appendChild(document.createTextNode(tail));
+        last = wordRe.lastIndex;
+      }
+
+      if (changed) {
+        if (last < text.length) frag.appendChild(document.createTextNode(text.slice(last)));
+        textNode.replaceWith(frag);
+      }
+    });
+  }
+
+  function ensurePopover() {
+    if (document.getElementById('se-popover')) return;
+    const pop = document.createElement('div');
+    pop.id = 'se-popover';
+    pop.setAttribute('role','dialog');
+    pop.setAttribute('aria-live','polite');
+    document.body.appendChild(pop);
+  }
+
+  function openSePopover(token) {
+    ensurePopover();
+    const pop = document.getElementById('se-popover');
+    pop.replaceChildren();
+
+    const label = document.createElement('div');
+    label.className = 'se-popover-label' + (token.classList.contains('se-other') ? ' other' : '');
+    label.textContent = token.dataset.seLabel;
+
+    const explanation = document.createElement('div');
+    explanation.textContent = token.dataset.seExplanation;
+
+    const note = document.createElement('div');
+    note.className = 'se-popover-note';
+    note.textContent = 'Rule-based annotation for this edition; ambiguous cases are classified conservatively.';
+
+    pop.append(label, explanation, note);
+    pop.classList.add('open');
+
+    requestAnimationFrame(() => {
+      const r = token.getBoundingClientRect();
+      if (window.innerWidth <= 600) return;
+      const left = Math.max(12, Math.min(r.left, window.innerWidth - pop.offsetWidth - 12));
+      let top = r.bottom + 8;
+      if (top + pop.offsetHeight > window.innerHeight - 12) {
+        top = Math.max(12, r.top - pop.offsetHeight - 8);
+      }
+      pop.style.left = left + 'px';
+      pop.style.top = top + 'px';
+    });
+  }
+
+  function addSeLegend() {
+    const controls = document.querySelector('header .controls');
+    if (!controls || document.querySelector('.se-legend')) return;
+    const legend = document.createElement('div');
+    legend.className = 'se-legend';
+    legend.innerHTML =
+      '<strong>SE guide:</strong> ' +
+      '<span class="se-token se-pronominal">se</span> = pronominal/reflexive · ' +
+      '<span class="se-token se-other">se</span> = another use; click/tap it for the grammar type.';
+    controls.insertAdjacentElement('afterend', legend);
+  }
+
+  function annotateSeUses() {
+    document.querySelectorAll('.es .txt').forEach(el => {
+      if (el.dataset.seTagged === '1') return;
+      annotateStandalone(el);
+      annotateEnclitic(el);
+      el.dataset.seTagged = '1';
+    });
+  }
+
+  document.addEventListener('click', ev => {
+    const pop = document.getElementById('se-popover');
+    if (pop && !ev.target.closest('.se-token') && !ev.target.closest('#se-popover')) {
+      pop.classList.remove('open');
+    }
+  });
+
+  document.addEventListener('keydown', ev => {
+    if (ev.key === 'Escape') {
+      const pop = document.getElementById('se-popover');
+      if (pop) pop.classList.remove('open');
+    }
+  });
+
+  document.addEventListener('DOMContentLoaded', () => {
+    addSeLegend();
+    annotateSeUses();
+    ensurePopover();
+  });
+})();
+</script>
+
 </head>
 <body id="top">
 <main><header><h1>Animal Farm / Rebelión en la granja</h1><div class="subtitle">English → Spanish, aligned by meaning for language study · Dark edition.</div><p>English comes first and the corresponding Spanish translation follows immediately. Where Rafael Abella’s Spanish translation merges or splits sentences, the matching material is kept together rather than forced into a false 1:1 alignment.</p><div class="controls"><button onclick="toggleLang('en')">Show / hide English</button><button onclick="toggleLang('es')">Show / hide Spanish</button></div><div class="tts-panel">
